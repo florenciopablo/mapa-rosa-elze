@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="pt-BR"><head><title>Mapa Rosa Elze</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b6b4f">
+<link rel="icon" href="icon.png">
+<style>@font-face{font-family:'IBM Plex Sans';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Sans';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-sans-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Sans';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-sans-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Sans Condensed';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-sans-condensed-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Sans Condensed';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-sans-condensed-latin-600-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Sans Condensed';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-sans-condensed-latin-700-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Mono';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2')}@font-face{font-family:'IBM Plex Mono';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/ibm-plex-mono-latin-600-normal.woff2) format('woff2')}</style>
+<style> .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; } .leaflet-container { overflow: hidden; } .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow { -webkit-user-select: none; -moz-user-select: none; user-select: none; -webkit-user-drag: none; } .leaflet-tile::selection { background: transparent; } .leaflet-safari .leaflet-tile { image-rendering: -webkit-optimize-contrast; } .leaflet-safari .leaflet-tile-container { width: 1600px; height: 1600px; -webkit-transform-origin: 0 0; } .leaflet-marker-icon, .leaflet-marker-shadow { display: block; } .leaflet-container .leaflet-overlay-pane svg { max-width: none !important; max-height: none !important; } .leaflet-container .leaflet-marker-pane img, .leaflet-container .leaflet-shadow-pane img, .leaflet-container .leaflet-tile-pane img, .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; width: auto; padding: 0; } .leaflet-container img.leaflet-tile { mix-blend-mode: plus-lighter; } .leaflet-container.leaflet-touch-zoom { -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; } .leaflet-container.leaflet-touch-drag { -ms-touch-action: pinch-zoom; touch-action: none; touch-action: pinch-zoom; } .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom { -ms-touch-action: none; touch-action: none; } .leaflet-container { -webkit-tap-highlight-color: transparent; } .leaflet-container a { -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4); } .leaflet-tile { filter: inherit; visibility: hidden; } .leaflet-tile-loaded { visibility: inherit; } .leaflet-zoom-box { width: 0; height: 0; -moz-box-sizing: border-box; box-sizing: border-box; z-index: 800; } .leaflet-overlay-pane svg { -moz-user-select: none; } .leaflet-pane { z-index: 400; } .leaflet-tile-pane { z-index: 200; } .leaflet-overlay-pane { z-index: 400; } .leaflet-shadow-pane { z-index: 500; } .leaflet-marker-pane { z-index: 600; } .leaflet-tooltip-pane { z-index: 650; } .leaflet-popup-pane { z-index: 700; } .leaflet-map-pane canvas { z-index: 100; } .leaflet-map-pane svg { z-index: 200; } .leaflet-vml-shape { width: 1px; height: 1px; } .leaflet-control { position: relative; z-index: 800; pointer-events: visiblePainted; pointer-events: auto; } .leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; } .leaflet-top { top: 0; } .leaflet-right { right: 0; } .leaflet-bottom { bottom: 0; } .leaflet-left { left: 0; } .leaflet-control { float: left; clear: both; } .leaflet-right .leaflet-control { float: right; } .leaflet-top .leaflet-control { margin-top: 10px; } .leaflet-bottom .leaflet-control { margin-bottom: 10px; } .leaflet-left .leaflet-control { margin-left: 10px; } .leaflet-right .leaflet-control { margin-right: 10px; } .leaflet-fade-anim .leaflet-popup { opacity: 0; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear; transition: opacity 0.2s linear; } .leaflet-fade-anim .leaflet-map-pane .leaflet-popup { opacity: 1; } .leaflet-zoom-animated { -webkit-transform-origin: 0 0; -ms-transform-origin: 0 0; transform-origin: 0 0; } svg.leaflet-zoom-animated { will-change: transform; } .leaflet-zoom-anim .leaflet-zoom-animated { -webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1); -moz-transition: -moz-transform 0.25s cubic-bezier(0,0,0.25,1); transition: transform 0.25s cubic-bezier(0,0,0.25,1); } .leaflet-zoom-anim .leaflet-tile, .leaflet-pan-anim .leaflet-tile { -webkit-transition: none; -moz-transition: none; transition: none; } .leaflet-zoom-anim .leaflet-zoom-hide { visibility: hidden; } .leaflet-interactive { cursor: pointer; } .leaflet-grab { cursor: -webkit-grab; cursor: -moz-grab; cursor: grab; } .leaflet-crosshair, .leaflet-crosshair .leaflet-interactive { cursor: crosshair; } .leaflet-popup-pane, .leaflet-control { cursor: auto; } .leaflet-dragging .leaflet-grab, .leaflet-dragging .leaflet-grab .leaflet-interactive, .leaflet-dragging .leaflet-marker-draggable { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; cursor: grabbing; } .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-image-layer, .leaflet-pane > svg path, .leaflet-tile-container { pointer-events: none; } .leaflet-marker-icon.leaflet-interactive, .leaflet-image-layer.leaflet-interactive, .leaflet-pane > svg path.leaflet-interactive, svg.leaflet-image-layer.leaflet-interactive path { pointer-events: visiblePainted; pointer-events: auto; } .leaflet-container { background: #ddd; outline-offset: 1px; } .leaflet-container a { color: #0078A8; } .leaflet-zoom-box { border: 2px dotted #38f; background: rgba(255,255,255,0.5); } .leaflet-container { font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; font-size: 12px; font-size: 0.75rem; line-height: 1.5; } .leaflet-bar { box-shadow: 0 1px 5px rgba(0,0,0,0.65); border-radius: 4px; } .leaflet-bar a { background-color: #fff; border-bottom: 1px solid #ccc; width: 26px; height: 26px; line-height: 26px; display: block; text-align: center; text-decoration: none; color: black; } .leaflet-bar a, .leaflet-control-layers-toggle { background-position: 50% 50%; background-repeat: no-repeat; display: block; } .leaflet-bar a:hover, .leaflet-bar a:focus { background-color: #f4f4f4; } .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; } .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; } .leaflet-bar a.leaflet-disabled { cursor: default; background-color: #f4f4f4; color: #bbb; } .leaflet-touch .leaflet-bar a { width: 30px; height: 30px; line-height: 30px; } .leaflet-touch .leaflet-bar a:first-child { border-top-left-radius: 2px; border-top-right-radius: 2px; } .leaflet-touch .leaflet-bar a:last-child { border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; } .leaflet-control-zoom-in, .leaflet-control-zoom-out { font: bold 18px 'Lucida Console', Monaco, monospace; text-indent: 1px; } .leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out { font-size: 22px; } .leaflet-control-layers { box-shadow: 0 1px 5px rgba(0,0,0,0.4); background: #fff; border-radius: 5px; } .leaflet-touch .leaflet-control-layers-toggle { width: 44px; height: 44px; } .leaflet-control-layers .leaflet-control-layers-list, .leaflet-control-layers-expanded .leaflet-control-layers-toggle { display: none; } .leaflet-control-layers-expanded .leaflet-control-layers-list { display: block; position: relative; } .leaflet-control-layers-expanded { padding: 6px 10px 6px 6px; color: #333; background: #fff; } .leaflet-control-layers-scrollbar { overflow-y: scroll; overflow-x: hidden; padding-right: 5px; } .leaflet-control-layers-selector { margin-top: 2px; position: relative; top: 1px; } .leaflet-control-layers label { display: block; font-size: 13px; font-size: 1.08333em; } .leaflet-control-layers-separator { height: 0; border-top: 1px solid #ddd; margin: 5px -10px 5px -6px; } .leaflet-container .leaflet-control-attribution { background: #fff; background: rgba(255, 255, 255, 0.8); margin: 0; } .leaflet-control-attribution, .leaflet-control-scale-line { padding: 0 5px; color: #333; line-height: 1.4; } .leaflet-control-attribution a { text-decoration: none; } .leaflet-control-attribution a:hover, .leaflet-control-attribution a:focus { text-decoration: underline; } .leaflet-attribution-flag { display: inline !important; vertical-align: baseline !important; width: 1em; height: 0.6669em; } .leaflet-left .leaflet-control-scale { margin-left: 5px; } .leaflet-bottom .leaflet-control-scale { margin-bottom: 5px; } .leaflet-control-scale-line { border: 2px solid #777; border-top: none; line-height: 1.1; padding: 2px 5px 1px; white-space: nowrap; -moz-box-sizing: border-box; box-sizing: border-box; background: rgba(255, 255, 255, 0.8); text-shadow: 1px 1px #fff; } .leaflet-control-scale-line:not(:first-child) { border-top: 2px solid #777; border-bottom: none; margin-top: -2px; } .leaflet-control-scale-line:not(:first-child):not(:last-child) { border-bottom: 2px solid #777; } .leaflet-touch .leaflet-control-attribution, .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar { box-shadow: none; } .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar { border: 2px solid rgba(0,0,0,0.2); background-clip: padding-box; } .leaflet-popup { position: absolute; text-align: center; margin-bottom: 20px; } .leaflet-popup-content-wrapper { padding: 1px; text-align: left; border-radius: 12px; } .leaflet-popup-content { margin: 13px 24px 13px 20px; line-height: 1.3; font-size: 13px; font-size: 1.08333em; min-height: 1px; } .leaflet-popup-content p { margin: 17px 0; margin: 1.3em 0; } .leaflet-popup-tip-container { width: 40px; height: 20px; position: absolute; left: 50%; margin-top: -1px; margin-left: -20px; overflow: hidden; pointer-events: none; } .leaflet-popup-tip { width: 17px; height: 17px; padding: 1px; margin: -10px auto 0; pointer-events: auto; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); } .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: white; color: #333; box-shadow: 0 3px 14px rgba(0,0,0,0.4); } .leaflet-container a.leaflet-popup-close-button { position: absolute; top: 0; right: 0; border: none; text-align: center; width: 24px; height: 24px; font: 16px/24px Tahoma, Verdana, sans-serif; color: #757575; text-decoration: none; background: transparent; } .leaflet-container a.leaflet-popup-close-button:hover, .leaflet-container a.leaflet-popup-close-button:focus { color: #585858; } .leaflet-popup-scrolled { overflow: auto; } .leaflet-oldie .leaflet-popup-content-wrapper { -ms-zoom: 1; } .leaflet-oldie .leaflet-popup-tip { width: 24px; margin: 0 auto; -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)"; filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678); } .leaflet-oldie .leaflet-control-zoom, .leaflet-oldie .leaflet-control-layers, .leaflet-oldie .leaflet-popup-content-wrapper, .leaflet-oldie .leaflet-popup-tip { border: 1px solid #999; } .leaflet-div-icon { background: #fff; border: 1px solid #666; } .leaflet-tooltip { position: absolute; padding: 6px; background-color: #fff; border: 1px solid #fff; border-radius: 3px; color: #222; white-space: nowrap; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,0.4); } .leaflet-tooltip.leaflet-interactive { cursor: pointer; pointer-events: auto; } .leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before { position: absolute; pointer-events: none; border: 6px solid transparent; background: transparent; content: ""; } .leaflet-tooltip-bottom { margin-top: 6px; } .leaflet-tooltip-top { margin-top: -6px; } .leaflet-tooltip-bottom:before, .leaflet-tooltip-top:before { left: 50%; margin-left: -6px; } .leaflet-tooltip-top:before { bottom: 0; margin-bottom: -12px; border-top-color: #fff; } .leaflet-tooltip-bottom:before { top: 0; margin-top: -12px; margin-left: -6px; border-bottom-color: #fff; } .leaflet-tooltip-left { margin-left: -6px; } .leaflet-tooltip-right { margin-left: 6px; } .leaflet-tooltip-left:before, .leaflet-tooltip-right:before { top: 50%; margin-top: -6px; } .leaflet-tooltip-left:before { right: 0; margin-right: -12px; border-left-color: #fff; } .leaflet-tooltip-right:before { left: 0; margin-left: -12px; border-right-color: #fff; } @media print { .leaflet-control { -webkit-print-color-adjust: exact; print-color-adjust: exact; } } </style>
+<style>
+/* Layout: full-height field tool — map fills the screen, a working panel docks left (desktop) or as a bottom sheet (phone) */
+:root{
+  --bg:#eef0ec; --surface:#ffffff; --surface-2:#f5f6f3; --fg:#1d2420; --muted:#5d6862; --line:#d5dad4;
+  --accent:#0b6b4f; --accent-soft:#d8ece4; --warn:#b35c00;
+  --map:#e9e6dc; --block:#fbfaf6; --block-stroke:#c9c3b2; --street:#ffffff; --street-case:#b9b2a0;
+  --setor:#7a4fa3; --bairro:#0b6b4f; --sel:#d1495b; --done:#1f9d55; --done-soft:#dcf3e4;
+  --font-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-cond:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --surface-2:#232b28; --fg:#e6ebe7; --muted:#9aa69f; --line:#34403b;
+  --accent:#4fc39a; --accent-soft:#1f3b31; --warn:#f0a35a;
+  --map:#1a1f1d; --block:#262d2a; --block-stroke:#46504b; --street:#3a4440; --street-case:#141917;
+  --setor:#b892e0; --bairro:#4fc39a; --sel:#ff7a8a; --done:#3fd07f; --done-soft:#17382a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --surface-2:#232b28; --fg:#e6ebe7; --muted:#9aa69f; --line:#34403b;
+  --accent:#4fc39a; --accent-soft:#1f3b31; --warn:#f0a35a;
+  --map:#1a1f1d; --block:#262d2a; --block-stroke:#46504b; --street:#3a4440; --street-case:#141917;
+  --setor:#b892e0; --bairro:#4fc39a; --sel:#ff7a8a; --done:#3fd07f; --done-soft:#17382a; color-scheme:dark}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:14px;margin:0;overflow:hidden}
+.app{display:grid;grid-template-columns:minmax(300px,380px) 1fr;height:100%}
+.panel{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--surface);border-right:1px solid var(--line)}
+.head{padding:14px 16px 10px;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.head h1{font-family:var(--font-cond);font-weight:700;font-size:19px;margin:0;letter-spacing:.01em;text-wrap:balance}
+.head .sub{color:var(--muted);font-size:12px;margin:0}
+.tabs{display:flex;gap:4px}
+.tabs button{flex:1;font:600 13px var(--font-cond);letter-spacing:.04em;text-transform:uppercase;padding:8px;border:1px solid var(--line);background:var(--surface-2);color:var(--muted);border-radius:6px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.crumbs{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);font-size:13px;min-height:20px}
+.crumbs button{border:0;background:none;color:var(--accent);font:600 13px var(--font-ui);cursor:pointer;padding:2px 0}
+.crumbs span.sep{color:var(--muted)}
+.crumbs .cur{font-weight:600}
+.body{overflow:auto;flex:1;min-height:0}
+.list{list-style:none;margin:0;padding:0}
+.list li button{width:100%;text-align:left;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 16px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--fg);font:14px var(--font-ui);cursor:pointer}
+.list li button:hover,.list li button:focus-visible{background:var(--surface-2);outline:none}
+.list .t{font-weight:600;min-width:0}
+.list .s{color:var(--muted);font-size:12px;display:block;font-weight:400}
+.n{font:500 12px var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.facehd{position:sticky;top:0;background:var(--surface-2);padding:8px 16px;border-bottom:1px solid var(--line);font:600 13px var(--font-cond);letter-spacing:.02em;display:flex;gap:8px;align-items:baseline;z-index:1}
+.facehd .fnum{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:11px;background:var(--sel);color:var(--surface);font:600 12px var(--font-mono)}
+.addr{display:grid;grid-template-columns:64px 1fr;gap:8px;padding:8px 16px;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;color:var(--fg);font:13px var(--font-ui)}
+.addr:hover,.addr:focus-visible{background:var(--surface-2);outline:none}
+.addr .num{font:600 15px var(--font-mono);font-variant-numeric:tabular-nums}
+.addr .meta{color:var(--muted);font-size:12px}
+.addr .est{font-weight:600}
+.pill{display:inline-block;font:600 10px var(--font-cond);letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-right:4px;vertical-align:1px;color:var(--surface)}
+.search{padding:12px 16px;display:grid;gap:8px;border-bottom:1px solid var(--line)}
+.search input,.search select{font:14px var(--font-ui);padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);color:var(--fg);width:100%;box-sizing:border-box}
+.search input:focus,.search select:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.hint{color:var(--muted);font-size:12px;padding:12px 16px;margin:0;line-height:1.5}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.summary div{background:var(--surface);padding:10px 12px}
+.summary b{display:block;font:600 18px var(--font-mono);font-variant-numeric:tabular-nums}
+.summary span{color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-cond)}
+.mapwrap{position:relative;min-width:0;min-height:0}
+#map{position:absolute;inset:0;background:var(--map)}
+.legend{position:absolute;right:12px;bottom:24px;z-index:500;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;display:grid;gap:4px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.25)}
+.legend .ttl{font:600 11px var(--font-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.zoomhint{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:500;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px 12px;font-size:12px;color:var(--muted)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;z-index:600;background:var(--map);color:var(--muted);font:600 14px var(--font-cond);letter-spacing:.05em}
+.leaflet-container{background:var(--map);font-family:var(--font-ui)}
+.leaflet-tooltip.qlbl{background:none;border:0;box-shadow:none;color:var(--muted);font:600 11px var(--font-mono);padding:0}
+.leaflet-tooltip.qlbl:before,.leaflet-tooltip.flbl:before,.leaflet-tooltip.slbl:before{display:none}
+.leaflet-tooltip.flbl{background:var(--sel);border:0;color:#fff;font:600 11px var(--font-mono);padding:1px 5px;border-radius:9px;box-shadow:none}
+.leaflet-tooltip.slbl{background:none;border:0;box-shadow:none;color:var(--fg);font:500 10.5px var(--font-cond);padding:0;text-shadow:0 0 3px var(--map),0 0 3px var(--map),0 0 2px var(--map);white-space:nowrap}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--fg)}
+.leaflet-popup-content{margin:10px 12px;font:13px/1.45 var(--font-ui)}
+.pop h3{margin:0 0 4px;font:600 15px var(--font-cond)}
+.pop dl{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;margin:6px 0 0;font-size:12px}
+.pop dt{color:var(--muted)}
+.pop dd{margin:0}
+.leaflet-bar a{background:var(--surface);color:var(--fg);border-color:var(--line)}
+.leaflet-control-attribution{background:var(--surface)!important;color:var(--muted)!important;font-size:10px}
+.toggle{position:absolute;left:12px;top:12px;z-index:500;display:none}
+.mapbtns{position:absolute;right:12px;top:12px;z-index:500;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:70%}
+.mapbtns label{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:12px;display:flex;gap:5px;align-items:center;cursor:pointer}
+.secthd{padding:10px 16px 6px;font:600 12px var(--font-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);background:var(--surface)}
+.bar{display:block;height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--done)}
+.rua{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 16px;border-bottom:1px solid var(--line);cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left;color:var(--fg);font:14px var(--font-ui)}
+.rua:hover,.rua:focus-visible{background:var(--surface-2);outline:none}
+.chk{width:22px;height:22px;border-radius:5px;border:2px solid var(--muted);display:grid;place-items:center;font:700 14px var(--font-ui);color:transparent;flex:none;box-sizing:border-box}
+.done .chk,.done.chk{background:var(--done);border-color:var(--done);color:var(--surface)}
+.rua.done .nm{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--done)}
+.fin{margin-left:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:14px;padding:3px 10px 3px 6px;font:600 12px var(--font-ui);display:inline-flex;gap:6px;align-items:center;cursor:pointer;white-space:nowrap}
+.fin .chk{width:16px;height:16px;font-size:11px}
+.fin.done{background:var(--done-soft);border-color:var(--done);color:var(--done)}
+.facehd.done{background:var(--done-soft)}
+.tag-ok{color:var(--done);font-weight:700}
+.sync .acts{margin-left:auto;display:flex;gap:6px}
+.sync .acts button{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:6px;padding:5px 9px;font:600 12px var(--font-ui);cursor:pointer}
+.sync span{min-width:0}
+.gpsbtn{position:absolute;right:12px;bottom:24px;z-index:550;width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--accent);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer}
+.gpsbtn.on{background:var(--accent);color:var(--surface)}
+.toast{position:absolute;left:50%;bottom:80px;transform:translateX(-50%);z-index:700;background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:18px;font-size:13px;max-width:80%;text-align:center}
+body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);box-sizing:border-box}
+@media (min-width:761px){.gpsbtn{bottom:auto;top:60px}}
+.sync{padding:8px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block;flex:none}
+.sync.on i{background:var(--done)}
+@media (max-width:760px){
+  .app{grid-template-columns:1fr;grid-template-rows:55% 45%}
+  .panel{order:2;border-right:0;border-top:1px solid var(--line)}
+  .mapwrap{order:1}
+  .head{padding:10px 16px 8px}
+  .head .sub{display:none}
+  .legend{display:none}
+  .mapbtns{max-width:90%}
+  .zoomhint{top:auto;bottom:28px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head><body>
+<div class="app">
+  <section class="panel" aria-label="Painel">
+    <div class="head">
+      <h1>Grande Rosa Elze · São Cristóvão/SE</h1>
+      <p class="sub">Endereços do CNEFE (Censo 2022), faces de logradouro e setores do IBGE</p>
+      <div class="tabs" role="tablist">
+        <button id="tab-nav" role="tab" aria-selected="true">Navegar</button>
+        <button id="tab-busca" role="tab" aria-selected="false">Buscar</button>
+      </div>
+    </div>
+    <div id="view-nav">
+      <nav class="crumbs" id="crumbs" aria-label="Localização"></nav>
+      <div class="summary" id="summary"></div>
+    </div>
+    <div id="view-busca" hidden>
+      <div class="search">
+        <input id="q" type="search" placeholder="Rua, número ou estabelecimento" autocomplete="off">
+        <select id="qb" aria-label="Filtrar por bairro"><option value="">Todos os bairros</option></select>
+      </div>
+    </div>
+    <div class="body" id="body"></div>
+    <div class="sync" id="sync"><i></i><span>Conectando…</span><div class="acts"><button id="bt-exp" type="button">Exportar</button><button id="bt-imp" type="button">Importar</button></div><input type="file" id="arq" accept="application/json,text/plain,.json,.txt" hidden></div>
+  </section>
+  <div class="mapwrap">
+    <div id="map" role="application" aria-label="Mapa"></div>
+    <div class="mapbtns">
+      <label><input type="checkbox" id="chk-end" checked> Endereços</label>
+      <label><input type="checkbox" id="chk-set" checked> Setores</label>
+      <label><input type="checkbox" id="chk-rua" checked> Nomes de ruas</label>
+    </div>
+    <div class="zoomhint" id="zoomhint">Aproxime o mapa para ver os endereços</div>
+    <div class="legend" id="legend"></div>
+    <button class="gpsbtn" id="gps" type="button" aria-label="Minha localização"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg></button>
+    <div class="toast" id="toast" hidden></div>
+    <div class="loading" id="loading">Carregando dados do IBGE…</div>
+  </div>
+</div>
+
+<script src="leaflet.js"></script>
+<script src="firebase.js"></script>
+<script src="dados.js"></script>
+<script>
+(async function(){
+const css=getComputedStyle(document.documentElement);
+const tok=n=>css.getPropertyValue(n).trim();
+const ESPCOR={1:'#2f6fb0',2:'#5a8fd0',3:'#6b8e23',4:'#e0a100',5:'#d1495b',6:'#e07a1f',7:'#8a8a8a',8:'#8e5bb5'};
+const ESPCURTO={1:'Domicílio',2:'Dom. coletivo',3:'Agropecuário',4:'Ensino',5:'Saúde',6:'Outras finalid.',7:'Em construção',8:'Religioso'};
+const fmt=n=>n.toLocaleString('pt-BR');
+const title=s=>s.toLowerCase().replace(/(^|\s|\/|-)(\S)/g,(m,a,b)=>a+b.toUpperCase()).replace(/\b(De|Da|Do|Das|Dos|E)\b/g,w=>w.toLowerCase());
+
+let D;
+try{ D=window.DADOS; if(!D) throw 0; }
+catch(e){ document.getElementById('loading').textContent='Não foi possível carregar os dados. Feche e abra de novo.'; return; }
+document.getElementById('loading').hidden=true;
+
+// índices
+const Q=D.quadras, S=D.setores, E=D.end;
+const endPorQ=Q.map(()=>[]); E.forEach((r,i)=>endPorQ[r[2]].push(i));
+const qPorS=S.map(()=>[]); Q.forEach((q,i)=>qPorS[q.s].push(i));
+const facesPorQ=Q.map(()=>[]); D.faces.forEach((f,i)=>facesPorQ[f.k].push(i));
+const BAIRROS=D.bairros.map(b=>b.b).sort();
+const sPorB={}; BAIRROS.forEach(b=>sPorB[b]=[]); S.forEach((s,i)=>sPorB[s.b].push(i));
+S.forEach(s=>s.cod=s.c.slice(-4).replace(/^0+/,''));
+
+// mapa
+const map=L.map('map',{preferCanvas:true,zoomSnap:.5,maxZoom:21,minZoom:13,attributionControl:true});
+map.attributionControl.setPrefix('').addAttribution('Fonte: IBGE — CNEFE e Faces de Logradouros, Censo 2022');
+const R=L.canvas({padding:.3,tolerance:4});
+const panes=['quadras','ruas','feitas','setores','bairros','sel','faces','pts'];
+panes.forEach((p,i)=>{map.createPane(p).style.zIndex=300+i*10});
+
+const gB=L.geoJSON({type:'FeatureCollection',features:D.bairros.map(b=>({type:'Feature',properties:b,geometry:b.g}))},
+  {pane:'bairros',renderer:R,style:{color:tok('--bairro'),weight:2.5,fillOpacity:0,dashArray:'6 4',interactive:false}}).addTo(map);
+const qLayers=[];
+const gQ=L.layerGroup().addTo(map);
+Q.forEach((q,i)=>{
+  const l=L.geoJSON(q.g,{pane:'quadras',renderer:R,style:{color:tok('--block-stroke'),weight:.8,fillColor:tok('--block'),fillOpacity:1}});
+  l.on('click',ev=>{L.DomEvent.stop(ev); abrirQuadra(i,false)});
+  qLayers.push(l); gQ.addLayer(l);
+});
+const gRuas=L.layerGroup().addTo(map);
+D.ruas.forEach(([nm,c])=>{
+  L.polyline(c,{pane:'ruas',renderer:R,color:tok('--street-case'),weight:6,opacity:.55,interactive:false}).addTo(gRuas);
+});
+D.ruas.forEach(([nm,c])=>{
+  L.polyline(c,{pane:'ruas',renderer:R,color:tok('--street'),weight:4,opacity:1}).bindTooltip(title(nm||'Sem nome'),{sticky:true}).addTo(gRuas);
+});
+const gS=L.geoJSON({type:'FeatureCollection',features:S.map((s,i)=>({type:'Feature',properties:{i},geometry:s.g}))},
+  {pane:'setores',renderer:R,style:{color:tok('--setor'),weight:1.6,fillOpacity:0,opacity:.85,interactive:false}}).addTo(map);
+const gSel=L.layerGroup().addTo(map);
+const gFaces=L.layerGroup().addTo(map);
+const gFeitas=L.layerGroup().addTo(map);
+
+// pontos
+const gPts=L.layerGroup();
+const ptLayers=new Array(E.length);
+E.forEach((r,i)=>{
+  const m=L.circleMarker([r[0],r[1]],{pane:'pts',renderer:R,radius:4,weight:1,color:'#ffffff',fillColor:ESPCOR[r[8]]||'#888',fillOpacity:.95});
+  m.on('click',()=>abrirEndereco(i,false));
+  ptLayers[i]=m; gPts.addLayer(m);
+});
+function rotEnd(r){return title(D.logs[r[4]])+', '+(r[5]||'S/N')+(r[6]?' '+r[6]:'')}
+function popHtml(i){
+  const r=E[i], q=Q[r[2]], s=S[q.s];
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  return `<div class="pop"><h3>${esc(rotEnd(r))}</h3>
+  <div><span class="pill" style="background:${ESPCOR[r[8]]}">${esc(ESPCURTO[r[8]])}</span>${r[9]?'<b>'+esc(r[9])+'</b>':''}</div>
+  <dl>${r[7]?`<dt>Compl.</dt><dd>${esc(r[7])}</dd>`:''}
+  <dt>Bairro</dt><dd>${esc(s.b)}</dd>
+  <dt>Localidade</dt><dd>${esc(title(D.locs[r[10]]||'—'))}</dd>
+  <dt>Setor</dt><dd style="font-family:var(--font-mono)">${s.c}</dd>
+  <dt>Quadra · Face</dt><dd style="font-family:var(--font-mono)">${q.q} · ${r[3]}</dd>
+  <dt>CEP</dt><dd style="font-family:var(--font-mono)">${r[12].replace(/(\d{5})(\d{3})/,'$1-$2')}</dd>
+  <dt>Coordenada</dt><dd>${r[11]===1?'Coletada no Censo':'Aproximada'}</dd></dl></div>`;
+}
+
+// rótulos de quadra e ruas por zoom
+const gQLbl=L.layerGroup();
+Q.forEach(q=>L.tooltip({permanent:true,direction:'center',className:'qlbl',interactive:false}).setLatLng(q.l).setContent(String(q.q)).addTo(gQLbl));
+// rótulos de rua: um por nome, no maior trecho, recalculado conforme a vista
+const ruasPorNome={};
+D.ruas.forEach(([nm,c])=>{ if(!nm) return; (ruasPorNome[nm]=ruasPorNome[nm]||[]).push(c) });
+const gSLbl=L.layerGroup();
+function compr(c){let s=0;for(let k=1;k<c.length;k++){s+=map.distance(c[k-1],c[k])}return s}
+const trechos=[];Object.entries(ruasPorNome).forEach(([nm,cs])=>cs.forEach(c=>trechos.push({nm,c,len:compr(c),mid:c[Math.floor(c.length/2)]&&L.latLng(c.length===2?[(c[0][0]+c[1][0])/2,(c[0][1]+c[1][1])/2]:c[Math.floor(c.length/2)])})));
+trechos.sort((a,b)=>b.len-a.len);
+function atualizaRotulos(){
+  const z=map.getZoom(), b=map.getBounds();
+  document.getElementById('zoomhint').hidden=z>=16;
+  if(z>=16){ if(document.getElementById('chk-end').checked && !map.hasLayer(gPts)) map.addLayer(gPts);} else map.removeLayer(gPts);
+  if(z>=16.5) map.addLayer(gQLbl); else map.removeLayer(gQLbl);
+  gSLbl.clearLayers();
+  if(z>=17 && document.getElementById('chk-rua').checked){
+    const vistos=new Set(), usados=[];
+    const minDist=z>=18.5?60:110;
+    for(const t of trechos){
+      if(!b.contains(t.mid)) continue;
+      if(t.len<(z>=18?25:45)) continue;
+      if(usados.some(u=>map.distance(u,t.mid)<minDist)) continue;
+      const cnt=[...vistos].filter(x=>x===t.nm).length;
+      if(vistos.has(t.nm) && z<18.5) continue;
+      vistos.add(t.nm); usados.push(t.mid);
+      L.tooltip({permanent:true,direction:'center',className:'slbl',interactive:false}).setLatLng(t.mid).setContent(title(t.nm)).addTo(gSLbl);
+      if(usados.length>140) break;
+    }
+    map.addLayer(gSLbl);
+  }
+}
+map.on('zoomend moveend',atualizaRotulos);
+document.getElementById('chk-end').onchange=e=>{ if(e.target.checked) atualizaRotulos(); else map.removeLayer(gPts) };
+document.getElementById('chk-set').onchange=e=>{ e.target.checked?map.addLayer(gS):map.removeLayer(gS) };
+document.getElementById('chk-rua').onchange=()=>atualizaRotulos();
+
+// legenda
+const cont={};E.forEach(r=>cont[r[8]]=(cont[r[8]]||0)+1);
+document.getElementById('legend').innerHTML='<div class="ttl">Espécie do endereço</div>'+
+  Object.keys(ESPCURTO).filter(k=>cont[k]).map(k=>`<div><i style="background:${ESPCOR[k]}"></i>${ESPCURTO[k]} <span class="n">${fmt(cont[k])}</span></div>`).join('')+
+  `<div class="ttl" style="margin-top:4px">Limites</div><div><i style="background:none;border:2px dashed ${tok('--bairro')};border-radius:2px"></i>Bairro</div><div><i style="background:none;border:2px solid ${tok('--setor')};border-radius:2px"></i>Setor censitário</div><div><i style="background:${tok('--done')};border-radius:2px;height:4px;vertical-align:3px"></i>Rua finalizada</div>`;
+
+// estado de navegação
+const st={b:null,s:null,q:null};
+const bodyEl=document.getElementById('body'), crumbs=document.getElementById('crumbs'), summ=document.getElementById('summary');
+function setSummary(a,b,c){summ.innerHTML=[a,b,c].map(([v,l])=>`<div><b>${typeof v==='number'?fmt(v):v}</b><span>${l}</span></div>`).join('')}
+function crumb(){
+  const parts=[`<button data-go="0">Bairros</button>`];
+  if(st.b!==null) parts.push('<span class="sep">›</span>', st.s===null?`<span class="cur">${st.b}</span>`:`<button data-go="1">${st.b}</button>`);
+  if(st.s!==null) parts.push('<span class="sep">›</span>', st.q===null?`<span class="cur">Setor ${S[st.s].cod}</span>`:`<button data-go="2">Setor ${S[st.s].cod}</button>`);
+  if(st.q!==null) parts.push('<span class="sep">›</span>',`<span class="cur">Quadra ${Q[st.q].q}</span>`);
+  crumbs.innerHTML=parts.join(' ');
+  crumbs.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const g=+b.dataset.go; if(g===0)home(); if(g===1)abrirBairro(st.b); if(g===2)abrirSetor(st.s)});
+}
+function limparSel(){gSel.clearLayers();gFaces.clearLayers()}
+function realce(geo,cor,peso){return L.geoJSON(geo,{pane:'sel',renderer:R,style:{color:cor,weight:peso,fillColor:cor,fillOpacity:.08,interactive:false}}).addTo(gSel)}
+function li(t,s,n,fn){const el=document.createElement('li');el.innerHTML=`<button><span class="t">${t}${s?`<span class="s">${s}</span>`:''}</span><span class="n">${n}</span></button>`;el.firstChild.onclick=fn;return el}
+
+// ===== ruas finalizadas =====
+const faceIdx={}; D.faces.forEach((f,i)=>faceIdx[f.k+'-'+f.f]=i);
+const ruasSet=S.map(()=>new Map());
+function addRua(s,nome){let m=ruasSet[s].get(nome);if(!m){m={faces:[],ends:0};ruasSet[s].set(nome,m)}return m}
+D.faces.forEach((f,i)=>{ if(f.nm) addRua(Q[f.k].s,f.nm).faces.push(i) });
+const ruaDoEnd=E.map(r=>{const fi=faceIdx[r[2]+'-'+r[3]];return (fi!==undefined&&D.faces[fi].nm)||D.logs[r[4]]||'SEM NOME'});
+E.forEach((r,i)=>addRua(Q[r[2]].s,ruaDoEnd[i]).ends++);
+function nomesQuadra(k){return [...new Set([...facesPorQ[k].map(f=>D.faces[f].nm).filter(Boolean),...endPorQ[k].map(e=>ruaDoEnd[e])])]}
+const semAc=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();
+const slug=s=>semAc(s).replace(/[^A-Z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,80)||'SEM-NOME';
+const chave=(s,nome)=>S[s].c+'__'+slug(nome);
+const feitas=new Map();
+const N=window.Nativo||null;
+const CFG={apiKey:"AIzaSyA8xnl5pabB0bEOgdXkX2kNMq8mMaB1jXE",authDomain:"mapa-rosa-elze.firebaseapp.com",projectId:"mapa-rosa-elze",storageBucket:"mapa-rosa-elze.firebasestorage.app",messagingSenderId:"132784064008",appId:"1:132784064008:web:103e2fb0ed079985b733bd"};
+const CK='mapa-cache-v2', PK='mapa-pend-v2', MK='mapa-migr-v2';
+function ler(k){try{ if(N&&N.ler) return N.ler(k)||''; return localStorage.getItem(k)||'' }catch(e){ return '' }}
+function grava(k,v){try{ if(N&&N.grava) N.grava(k,v); else localStorage.setItem(k,v) }catch(e){}}
+function lerJSON(k){try{return JSON.parse(ler(k)||'{}')||{}}catch(e){return {}}}
+let servidor=new Map(Object.entries(lerJSON(CK)));
+const pend=new Map(Object.entries(lerJSON(PK)));
+const enviados=new Set();
+let db=null, online=false, recebeuServidor=false, erroSync='';
+function salvaPend(){grava(PK,JSON.stringify(Object.fromEntries(pend)))}
+function recalcular(){
+  feitas.clear(); servidor.forEach((v,k)=>feitas.set(k,v));
+  pend.forEach((p,k)=>{ if(p.op==='set') feitas.set(k,p.dados); else feitas.delete(k) });
+}
+const syncEl=document.getElementById('sync');
+function setSync(on,txt){syncEl.className='sync'+(on?' on':'');syncEl.querySelector('span').textContent=txt}
+function status(){
+  if(erroSync) return setSync(false,erroSync);
+  if(!online) return setSync(false, pend.size?`Sem internet · ${pend.size} alteração(ões) serão enviadas depois`:'Sem internet · mostrando a última versão salva');
+  if(pend.size) return setSync(false,`Enviando ${pend.size} alteração(ões)…`);
+  setSync(true,`Ao vivo · ${feitas.size} rua(s) finalizada(s) pela equipe`);
+}
+const isFeita=(s,nome)=>feitas.has(chave(s,nome));
+function enviar(k){
+  const p=pend.get(k); if(!db||!p||enviados.has(k+'|'+p.em)) return;
+  enviados.add(k+'|'+p.em);
+  const ref=FB.doc(db,'ruas',k);
+  (p.op==='set'?FB.setDoc(ref,p.dados):FB.deleteDoc(ref)).then(()=>{
+    if(pend.get(k)===p){ pend.delete(k); salvaPend(); }
+    if(p.op==='set') servidor.set(k,p.dados); else servidor.delete(k);
+    recalcular(); status();
+  }).catch(e=>{
+    enviados.delete(k+'|'+p.em);
+    if(e&&e.code==='permission-denied'){ pend.delete(k); salvaPend(); recalcular(); atualizarTudo(); toast('O servidor recusou essa marcação.'); }
+    status();
+  });
+}
+function marcarPend(k,op,dados){
+  const p={op,em:new Date().toISOString()}; if(dados) p.dados=dados;
+  pend.set(k,p); salvaPend(); enviar(k);
+}
+async function alternarRua(s,nome){
+  const k=chave(s,nome), estava=feitas.has(k);
+  if(estava) marcarPend(k,'del'); else marcarPend(k,'set',{setor:S[s].c,nome,bairro:S[s].b,em:new Date().toISOString()});
+  recalcular(); atualizarTudo(); status();
+}
+function progSetor(s){let t=0,d=0;ruasSet[s].forEach((v,nome)=>{t++;if(isFeita(s,nome))d++});return [d,t]}
+function progLista(ss){return ss.reduce((a,s)=>{const [d,t]=progSetor(s);return [a[0]+d,a[1]+t]},[0,0])}
+function barra(d,t){return `<span class="bar"><i style="width:${t?Math.round(d/t*100):0}%"></i></span>`}
+function desenharFeitas(){
+  gFeitas.clearLayers();
+  const cor=tok('--done');
+  ruasSet.forEach((m,s)=>m.forEach((v,nome)=>{ if(isFeita(s,nome)) v.faces.forEach(fi=>L.polyline(D.faces[fi].c,{pane:'feitas',renderer:R,color:cor,weight:5,opacity:.9,interactive:false}).addTo(gFeitas)) }));
+}
+let rtTimer=null;
+function atualizarTudo(){
+  desenharFeitas();
+  if(document.getElementById('view-nav').hidden) return;
+  const y=bodyEl.scrollTop;
+  if(st.q!==null) abrirQuadra(st.q,false,true); else if(st.s!==null) abrirSetor(st.s,true); else if(st.b) abrirBairro(st.b,true); else home(true);
+  bodyEl.scrollTop=y;
+}
+function ruaBtn(s,nome,extra){
+  const ok=isFeita(s,nome);
+  const b=document.createElement('button');b.className='rua'+(ok?' done':'');
+  b.setAttribute('aria-pressed',ok?'true':'false');
+  b.innerHTML=`<span class="chk">✓</span><span class="nm">${title(nome)}</span><span class="n">${extra}</span>`;
+  b.onclick=()=>alternarRua(s,nome);return b;
+}
+function migrar(){
+  if(ler(MK)) return;
+  let antigo={};
+  try{ antigo=JSON.parse((N&&N.carregar?N.carregar():localStorage.getItem('ruas-finalizadas-v1'))||'{}')||{} }catch(e){}
+  Object.entries(antigo).forEach(([k,v])=>{ if(v&&v.setor&&v.nome&&!servidor.has(k)&&!pend.has(k)) marcarPend(k,'set',{setor:String(v.setor),nome:String(v.nome),bairro:String(v.bairro||''),em:String(v.em||new Date().toISOString())}) });
+  grava(MK,'1');
+}
+async function conectar(){
+  recalcular(); atualizarTudo(); status();
+  try{
+    const app=FB.initializeApp(CFG);
+    db=FB.initializeFirestore(app,{localCache:FB.memoryLocalCache(),experimentalAutoDetectLongPolling:true});
+  }catch(e){ erroSync='Não foi possível iniciar a sincronização.'; status(); return; }
+  migrar();
+  pend.forEach((p,k)=>enviar(k));
+  FB.onSnapshot(FB.collection(db,'ruas'),{includeMetadataChanges:true},snap=>{
+    const doServidor=!snap.metadata.fromCache;
+    if(doServidor){ recebeuServidor=true; online=true; erroSync=''; }
+    else online=false;
+    if(doServidor||recebeuServidor){
+      const novo=new Map(); snap.docs.forEach(d=>novo.set(d.id,d.data()));
+      servidor=novo;
+      if(doServidor) grava(CK,JSON.stringify(Object.fromEntries(servidor)));
+    }
+    if(doServidor) pend.forEach((p,k)=>enviar(k));
+    recalcular(); atualizarTudo(); status();
+  },e=>{ erroSync='A sincronização falhou. Feche e abra de novo.'; status(); });
+  window.addEventListener('online',()=>{ pend.forEach((p,k)=>enviar(k)); });
+}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3500)}
+window.toast=toast;
+document.getElementById('bt-exp').onclick=()=>{
+  const j=JSON.stringify({app:'mapa-rosa-elze',versao:2,exportado:new Date().toISOString(),ruas:Object.fromEntries(feitas)});
+  const nome='ruas-finalizadas-'+new Date().toISOString().slice(0,10)+'.json';
+  if(N) N.compartilhar(j,nome);
+  else { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([j],{type:'application/json'})); a.download=nome; document.body.appendChild(a); a.click(); a.remove(); }
+};
+document.getElementById('bt-imp').onclick=()=>document.getElementById('arq').click();
+document.getElementById('arq').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{ const o=JSON.parse(await f.text()); const r=o.ruas||o; let n=0;
+    Object.entries(r).forEach(([k,v])=>{ if(v&&typeof v==='object'&&v.setor&&v.nome&&!feitas.has(k)){ marcarPend(k,'set',{setor:String(v.setor),nome:String(v.nome),bairro:String(v.bairro||''),em:String(v.em||new Date().toISOString())}); n++ } });
+    recalcular(); atualizarTudo(); status(); toast(n?`${n} rua(s) importada(s).`:'Nenhuma rua nova nesse arquivo.');
+  }catch(err){ toast('Esse arquivo não é um backup do Mapa Rosa Elze.'); }
+};
+// GPS
+let gpsOn=false, gpsMk=null, gpsCirc=null, gpsPrimeiro=true;
+window.onGPS=(lat,lng,acc)=>{
+  const ll=[lat,lng];
+  if(!gpsMk){ gpsCirc=L.circle(ll,{radius:acc,pane:'pts',renderer:R,color:'#1a73e8',weight:1,fillColor:'#1a73e8',fillOpacity:.12,interactive:false}).addTo(map);
+    gpsMk=L.circleMarker(ll,{pane:'pts',renderer:R,radius:8,color:'#ffffff',weight:3,fillColor:'#1a73e8',fillOpacity:1,interactive:false}).addTo(map); }
+  else { gpsMk.setLatLng(ll); gpsCirc.setLatLng(ll).setRadius(acc); }
+  if(gpsPrimeiro){ gpsPrimeiro=false; map.setView(ll,Math.max(map.getZoom(),18)); }
+};
+window.onGPSerro=msg=>{ toast(msg); gpsOn=false; document.getElementById('gps').classList.remove('on'); };
+document.getElementById('gps').onclick=()=>{
+  if(gpsOn && gpsMk){ map.setView(gpsMk.getLatLng(),Math.max(map.getZoom(),18)); return; }
+  gpsOn=true; gpsPrimeiro=true; document.getElementById('gps').classList.add('on'); toast('Procurando sua localização…');
+  if(N){ N.iniciarGPS(); return; }
+  if(!navigator.geolocation){ onGPSerro('Este navegador não informa a localização.'); return; }
+  navigator.geolocation.watchPosition(p=>onGPS(p.coords.latitude,p.coords.longitude,Math.max(3,p.coords.accuracy)),
+    err=>onGPSerro(err.code===1?'Sem permissão de localização. Libere nas configurações do navegador.':'Não foi possível achar sua localização.'),
+    {enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+};
+window.voltar=()=>{
+  if(document.querySelector('.leaflet-popup')){ map.closePopup(); return true; }
+  if(!document.getElementById('view-busca').hidden){ document.getElementById('tab-nav').click(); return true; }
+  if(st.q!==null){ abrirSetor(st.s); return true; }
+  if(st.s!==null){ abrirBairro(st.b); return true; }
+  if(st.b){ home(); return true; }
+  return false;
+};
+
+
+function home(keep){
+  st.b=st.s=st.q=null; if(!keep){limparSel();} crumb();
+  const [dT,tT]=progLista(S.map((_,i)=>i));
+  setSummary([E.length,'endereços'],[`${dT}/${tT}`,'ruas finalizadas'],[Q.length,'quadras']);
+  const ul=document.createElement('ul');ul.className='list';
+  BAIRROS.forEach(b=>{const n=sPorB[b].reduce((a,i)=>a+S[i].n,0);const [d,t]=progLista(sPorB[b]);ul.appendChild(li(b,`${sPorB[b].length} setores · ${d}/${t} ruas finalizadas${barra(d,t)}`,fmt(n)+' end.',()=>abrirBairro(b)))});
+  bodyEl.replaceChildren(ul);
+  const hint=document.createElement('p');hint.className='hint';hint.textContent='Escolha um bairro, depois um setor e uma quadra para ver a lista de endereços por face, como na caderneta do recenseador. Também dá para tocar direto numa quadra no mapa.';bodyEl.appendChild(hint);
+  if(!keep) map.fitBounds(gB.getBounds(),{padding:[20,20]});
+}
+function abrirBairro(b,keep){
+  st.b=b;st.s=st.q=null;crumb();
+  const g=D.bairros.find(x=>x.b===b); let l;
+  if(!keep){limparSel(); l=realce(g.g,tok('--bairro'),3);}
+  const ss=sPorB[b].slice().sort((x,y)=>S[x].c.localeCompare(S[y].c));
+  const nq=ss.reduce((a,i)=>a+qPorS[i].length,0), ne=ss.reduce((a,i)=>a+S[i].n,0);
+  const [dB,tB]=progLista(ss);
+  setSummary([ne,'endereços'],[`${dB}/${tB}`,'ruas finalizadas'],[nq,'quadras']);
+  const ul=document.createElement('ul');ul.className='list';
+  ss.forEach(i=>{const [d,t]=progSetor(i);ul.appendChild(li('Setor '+S[i].cod+(d===t&&t?' <span class="tag-ok">✓</span>':''),`${d}/${t} ruas finalizadas · ${qPorS[i].length} quadras${barra(d,t)}`,fmt(S[i].n)+' end.',()=>abrirSetor(i)))});
+  bodyEl.replaceChildren(ul); if(!keep){bodyEl.scrollTop=0;
+  map.fitBounds(l.getBounds(),{padding:[20,20]});}
+}
+function abrirSetor(i,keep){
+  st.s=i;st.b=S[i].b;st.q=null;crumb();
+  let l; if(!keep){limparSel(); l=realce(S[i].g,tok('--setor'),3.5);}
+  const qs=qPorS[i].slice().sort((a,b)=>Q[a].q-Q[b].q);
+  const [d,t]=progSetor(i);
+  setSummary([S[i].n,'endereços'],[`${d}/${t}`,'ruas finalizadas'],[qs.length,'quadras']);
+  const frag=document.createDocumentFragment();
+  const h1=document.createElement('div');h1.className='secthd';h1.innerHTML=`<span>Ruas do setor · toque para marcar</span><span>${d}/${t}</span>`;frag.appendChild(h1);
+  [...ruasSet[i].entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([nome,v])=>frag.appendChild(ruaBtn(i,nome,v.ends+' end.')));
+  const h2=document.createElement('div');h2.className='secthd';h2.innerHTML='<span>Quadras</span><span></span>';frag.appendChild(h2);
+  const ul=document.createElement('ul');ul.className='list';
+  qs.forEach(k=>{
+    const nomes=nomesQuadra(k);
+    const ok=nomes.length&&nomes.every(n=>isFeita(i,n));
+    ul.appendChild(li('Quadra '+Q[k].q+(ok?' <span class="tag-ok">✓</span>':''),nomes.slice(0,3).map(title).join(' · '),fmt(Q[k].n)+' end.',()=>abrirQuadra(k,true)));
+  });
+  frag.appendChild(ul);
+  bodyEl.replaceChildren(frag); if(!keep){bodyEl.scrollTop=0;
+  map.fitBounds(l.getBounds(),{padding:[20,20]});}
+}
+function abrirQuadra(k,zoom,keep){
+  showTab('nav');
+  const q=Q[k]; st.q=k; st.s=q.s; st.b=S[q.s].b; crumb();
+  if(!keep){ limparSel();
+  realce(S[q.s].g,tok('--setor'),2.5);
+  const l=L.geoJSON(q.g,{pane:'sel',renderer:R,style:{color:tok('--sel'),weight:3,fillColor:tok('--sel'),fillOpacity:.12,interactive:false}}).addTo(gSel);
+  const c=l.getBounds().getCenter();
+  // faces: linha + número deslocado para dentro da quadra
+  facesPorQ[k].map(f=>D.faces[f]).forEach(f=>{
+    L.polyline(f.c,{pane:'faces',renderer:R,color:tok('--sel'),weight:4,opacity:.9,interactive:false}).addTo(gFaces);
+    const m=f.c.length===2?[(f.c[0][0]+f.c[1][0])/2,(f.c[0][1]+f.c[1][1])/2]:f.c[Math.floor(f.c.length/2)];
+    const p=[m[0]+(c.lat-m[0])*.22,m[1]+(c.lng-m[1])*.22];
+    L.tooltip({permanent:true,direction:'center',className:'flbl',pane:'tooltipPane'}).setLatLng(p).setContent(String(f.f)).addTo(gFaces);
+  });
+  if(zoom) map.fitBounds(l.getBounds(),{padding:[40,40],maxZoom:19});
+  }
+  const fs=facesPorQ[k].map(f=>D.faces[f]).sort((a,b)=>a.f-b.f);
+  const ends=endPorQ[k];
+  const nDom=ends.filter(i=>E[i][8]===1).length;
+  setSummary([ends.length,'endereços'],[nDom,'domicílios'],[fs.length,'faces']);
+  // lista por face
+  const frag=document.createDocumentFragment();
+  const porFace={}; ends.forEach(i=>(porFace[E[i][3]]=porFace[E[i][3]]||[]).push(i));
+  const faceNums=[...new Set([...fs.map(f=>f.f),...Object.keys(porFace).map(Number)])].sort((a,b)=>a-b);
+  faceNums.forEach(fn=>{
+    const fobj=fs.find(f=>f.f===fn); const lista=porFace[fn]||[];
+    const nomeRaw=fobj&&fobj.nm?fobj.nm:(lista[0]!==undefined?ruaDoEnd[lista[0]]:null);
+    const nome=nomeRaw?title(nomeRaw):'Sem logradouro';
+    const ok=nomeRaw&&isFeita(q.s,nomeRaw);
+    const hd=document.createElement('div');hd.className='facehd'+(ok?' done':'');
+    hd.innerHTML=`<span class="fnum">${fn}</span><span>${nome}</span><span class="n" style="margin-left:auto">${lista.length}</span>`;
+    if(nomeRaw){const bt=document.createElement('button');bt.className='fin'+(ok?' done':'');bt.setAttribute('aria-pressed',ok?'true':'false');bt.title='Marca esta rua em todo o setor';
+      bt.innerHTML=`<span class="chk">✓</span>${ok?'Finalizada':'Finalizar rua'}`;bt.onclick=()=>alternarRua(q.s,nomeRaw);hd.appendChild(bt);}
+    frag.appendChild(hd);
+    lista.sort((a,b)=>(parseInt(E[a][5])||0)-(parseInt(E[b][5])||0)).forEach(i=>{
+      const r=E[i];const b=document.createElement('button');b.className='addr';
+      const outroLog=fobj&&fobj.nm&&title(D.logs[r[4]])!==nome?`<div class="meta">${title(D.logs[r[4]])}</div>`:'';
+      b.innerHTML=`<span class="num">${r[5]||'S/N'}${r[6]?' <small>'+r[6]+'</small>':''}</span><span>${r[8]!==1?`<span class="pill" style="background:${ESPCOR[r[8]]}">${ESPCURTO[r[8]]}</span>`:''}${r[9]?`<span class="est">${r[9]}</span>`:''}${outroLog}${r[7]?`<div class="meta">${r[7]}</div>`:(r[8]===1&&!r[9]&&!outroLog?'<div class="meta">Domicílio</div>':'')}</span>`;
+      b.onclick=()=>abrirEndereco(i,true);
+      frag.appendChild(b);
+    });
+  });
+  if(!faceNums.length){const p=document.createElement('p');p.className='hint';p.textContent='Nenhum endereço cadastrado nesta quadra.';frag.appendChild(p)}
+  bodyEl.replaceChildren(frag); if(!keep) bodyEl.scrollTop=0;
+}
+function abrirEndereco(i,voar){
+  const r=E[i];
+  if(voar){ map.setView([r[0],r[1]],Math.max(map.getZoom(),18.5)); }
+  setTimeout(()=>L.popup({maxWidth:300}).setLatLng([r[0],r[1]]).setContent(popHtml(i)).openOn(map), voar?300:0);
+}
+
+// busca
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();
+const idxBusca=E.map(r=>norm(D.logs[r[4]]+' '+r[5]+' '+r[9]+' '+r[7]));
+const qb=document.getElementById('qb'); BAIRROS.forEach(b=>qb.add(new Option(b,b)));
+function buscar(){
+  const t=norm(document.getElementById('q').value.trim()), fb=qb.value;
+  if(t.length<2){bodyEl.innerHTML='<p class="hint">Digite pelo menos duas letras. Exemplos: “Lauro Rocha”, “Rua 35 120”, “escola”, “igreja”.</p>';return}
+  const termos=t.split(/\s+/);
+  const res=[];
+  for(let i=0;i<E.length && res.length<400;i++){
+    if(fb && S[Q[E[i][2]].s].b!==fb) continue;
+    const s=idxBusca[i]; if(termos.every(w=>/^\d+$/.test(w)?new RegExp('(^|\\s)'+w+'(\\s|$)').test(s):s.includes(w))) res.push(i);
+  }
+  const frag=document.createDocumentFragment();
+  const p=document.createElement('p');p.className='hint';p.textContent=res.length>=400?'Mostrando os primeiros 400 resultados. Refine a busca.':`${res.length} resultado(s).`;frag.appendChild(p);
+  res.forEach(i=>{const r=E[i],q=Q[r[2]];const b=document.createElement('button');b.className='addr';
+    b.innerHTML=`<span class="num">${r[5]||'S/N'}</span><span><span class="est">${title(D.logs[r[4]])}</span>${r[9]?`<div>${r[9]}</div>`:''}<div class="meta">${S[q.s].b} · Setor ${S[q.s].cod} · Qd ${q.q} · Face ${r[3]}</div></span>`;
+    b.onclick=()=>{abrirEndereco(i,true)};frag.appendChild(b)});
+  bodyEl.replaceChildren(frag);
+}
+let tmr;document.getElementById('q').addEventListener('input',()=>{clearTimeout(tmr);tmr=setTimeout(buscar,200)});
+qb.onchange=buscar;
+
+// abas
+function showTab(t){
+  document.getElementById('tab-nav').setAttribute('aria-selected',t==='nav');
+  document.getElementById('tab-busca').setAttribute('aria-selected',t==='busca');
+  document.getElementById('view-nav').hidden=t!=='nav';
+  document.getElementById('view-busca').hidden=t!=='busca';
+}
+document.getElementById('tab-nav').onclick=()=>{showTab('nav'); if(st.q!==null)abrirQuadra(st.q,false); else if(st.s!==null)abrirSetor(st.s); else if(st.b)abrirBairro(st.b); else home()};
+document.getElementById('tab-busca').onclick=()=>{showTab('busca');buscar();document.getElementById('q').focus()};
+
+home(); atualizaRotulos(); conectar();
+})();
+</script>
+
+</body></html>
