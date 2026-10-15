@@ -12,7 +12,7 @@
   --bg:#eef0ec; --surface:#ffffff; --surface-2:#f5f6f3; --fg:#1d2420; --muted:#5d6862; --line:#d5dad4;
   --accent:#0b6b4f; --accent-soft:#d8ece4; --warn:#b35c00;
   --map:#e9e6dc; --block:#fbfaf6; --block-stroke:#c9c3b2; --street:#ffffff; --street-case:#b9b2a0;
-  --setor:#7a4fa3; --bairro:#0b6b4f; --sel:#d1495b; --done:#1f9d55; --done-soft:#dcf3e4;
+  --setor:#7a4fa3; --bairro:#0b6b4f; --sel:#d1495b; --done:#1f9d55; --done-soft:#dcf3e4; --lambe:#e8590c; --lambe-soft:#ffe8d9; --voto:#2b8a3e; --voto-soft:#dbf3df;
   --font-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --font-cond:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
   --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
@@ -21,12 +21,12 @@
   --bg:#141917; --surface:#1c2320; --surface-2:#232b28; --fg:#e6ebe7; --muted:#9aa69f; --line:#34403b;
   --accent:#4fc39a; --accent-soft:#1f3b31; --warn:#f0a35a;
   --map:#1a1f1d; --block:#262d2a; --block-stroke:#46504b; --street:#3a4440; --street-case:#141917;
-  --setor:#b892e0; --bairro:#4fc39a; --sel:#ff7a8a; --done:#3fd07f; --done-soft:#17382a; color-scheme:dark}}
+  --setor:#b892e0; --bairro:#4fc39a; --sel:#ff7a8a; --done:#3fd07f; --done-soft:#17382a; --lambe:#ff8f4d; --lambe-soft:#3d2414; --voto:#51cf66; --voto-soft:#17382a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141917; --surface:#1c2320; --surface-2:#232b28; --fg:#e6ebe7; --muted:#9aa69f; --line:#34403b;
   --accent:#4fc39a; --accent-soft:#1f3b31; --warn:#f0a35a;
   --map:#1a1f1d; --block:#262d2a; --block-stroke:#46504b; --street:#3a4440; --street-case:#141917;
-  --setor:#b892e0; --bairro:#4fc39a; --sel:#ff7a8a; --done:#3fd07f; --done-soft:#17382a; color-scheme:dark}
+  --setor:#b892e0; --bairro:#4fc39a; --sel:#ff7a8a; --done:#3fd07f; --done-soft:#17382a; --lambe:#ff8f4d; --lambe-soft:#3d2414; --voto:#51cf66; --voto-soft:#17382a; color-scheme:dark}
 [hidden]{display:none!important}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:14px;margin:0;overflow:hidden}
@@ -109,6 +109,41 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:1
 .toast{position:absolute;left:50%;bottom:80px;transform:translateX(-50%);z-index:700;background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:18px;font-size:13px;max-width:80%;text-align:center}
 body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);box-sizing:border-box}
 @media (min-width:761px){.gpsbtn{bottom:auto;top:60px}}
+.sync{padding:8px 16px;}
+body.at-lambe{--done:var(--lambe);--done-soft:var(--lambe-soft)}
+body.at-voto{--done:var(--voto);--done-soft:var(--voto-soft)}
+.quem{display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap}
+.quem .dot{width:10px;height:10px;border-radius:50%;background:var(--done);display:inline-block;margin-right:4px}
+.quem button{margin-left:auto;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:6px;padding:4px 10px;font:600 12px var(--font-ui);cursor:pointer}
+.nm{display:grid;gap:2px;min-width:0}
+.tgs{display:flex;gap:4px;flex-wrap:wrap}
+.tgs:empty{display:none}
+.tg{font:600 11px var(--font-ui);padding:1px 6px;border-radius:9px;display:inline-block}
+.t-lambe{background:var(--lambe-soft);color:var(--lambe)}
+.t-voto{background:var(--voto-soft);color:var(--voto)}
+.rua.done .nm{text-decoration:none;color:inherit}
+.rua.done .nmt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--done)}
+.pl{color:var(--lambe);font-weight:600}.pv{color:var(--voto);font-weight:600}
+.bar2{display:block;height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:3px}
+.bar2 i{display:block;height:100%}.bar2 .bl{background:var(--lambe)}.bar2 .bv{background:var(--voto)}
+.boas{position:fixed;inset:0;z-index:2000;background:var(--bg);overflow:auto;display:grid;place-items:center;padding:24px 16px;box-sizing:border-box}
+.boas-card{width:100%;max-width:440px;display:grid;gap:18px}
+.boas h2{font:700 26px/1.15 var(--font-cond);margin:0;text-wrap:balance}
+.boas p{margin:0;color:var(--muted);line-height:1.5}
+.boas .lb{font:600 12px var(--font-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.boas input{width:100%;box-sizing:border-box;font:16px var(--font-ui);padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.boas input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.ativs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.b-ativ{display:grid;gap:8px;justify-items:start;text-align:left;padding:14px;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;font:600 15px var(--font-ui)}
+.b-ativ small{font:400 12px var(--font-ui);color:var(--muted)}
+.b-ativ .sw{width:28px;height:6px;border-radius:3px}
+.b-ativ[data-at="lambe"] .sw{background:var(--lambe)}.b-ativ[data-at="voto"] .sw{background:var(--voto)}
+.b-ativ[data-at="lambe"][aria-pressed="true"]{border-color:var(--lambe);background:var(--lambe-soft)}
+.b-ativ[data-at="voto"][aria-pressed="true"]{border-color:var(--voto);background:var(--voto-soft)}
+.b-entrar{font:700 16px var(--font-cond);letter-spacing:.04em;text-transform:uppercase;padding:14px;border-radius:10px;border:0;background:var(--accent);color:var(--surface);cursor:pointer}
+.b-entrar:disabled{opacity:.4;cursor:not-allowed}
+.boas .fonte{font-size:11px}
+@media (max-width:360px){.ativs{grid-template-columns:1fr}}
 .sync{padding:8px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center}
 .sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block;flex:none}
 .sync.on i{background:var(--done)}
@@ -125,12 +160,26 @@ body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);box-sizi
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
+<div class="boas" id="boas">
+  <div class="boas-card">
+    <div><h2>Mapa Rosa Elze</h2><p>Antes de abrir o mapa, diga quem é você e o que vai fazer agora. As ruas que você marcar ficam com a cor da atividade escolhida.</p></div>
+    <div><label class="lb" for="b-nome">Seu nome</label><input id="b-nome" type="text" autocomplete="name" maxlength="58" placeholder="Ex.: Pablo"></div>
+    <div><span class="lb">O que você vai fazer agora?</span>
+      <div class="ativs">
+        <button class="b-ativ" type="button" data-at="lambe" aria-pressed="false"><span class="sw"></span>Colar lambe-lambe<small>Marca a rua em laranja</small></button>
+        <button class="b-ativ" type="button" data-at="voto" aria-pressed="false"><span class="sw"></span>Virar voto<small>Marca a rua em verde</small></button>
+      </div></div>
+    <button class="b-entrar" id="b-entrar" type="button" disabled>Abrir mapa</button>
+    <p class="fonte">Endereços: IBGE, CNEFE e Faces de Logradouros do Censo 2022.</p>
+  </div>
+</div>
 </head><body>
 <div class="app">
   <section class="panel" aria-label="Painel">
     <div class="head">
-      <h1>Grande Rosa Elze · São Cristóvão/SE</h1>
+      <h1>Mapa Rosa Elze</h1>
       <p class="sub">Endereços do CNEFE (Censo 2022), faces de logradouro e setores do IBGE</p>
+      <div class="quem"><span id="quem"></span><button id="trocar" type="button">Trocar</button></div>
       <div class="tabs" role="tablist">
         <button id="tab-nav" role="tab" aria-selected="true">Navegar</button>
         <button id="tab-busca" role="tab" aria-selected="false">Buscar</button>
@@ -283,7 +332,7 @@ document.getElementById('chk-rua').onchange=()=>atualizaRotulos();
 const cont={};E.forEach(r=>cont[r[8]]=(cont[r[8]]||0)+1);
 document.getElementById('legend').innerHTML='<div class="ttl">Espécie do endereço</div>'+
   Object.keys(ESPCURTO).filter(k=>cont[k]).map(k=>`<div><i style="background:${ESPCOR[k]}"></i>${ESPCURTO[k]} <span class="n">${fmt(cont[k])}</span></div>`).join('')+
-  `<div class="ttl" style="margin-top:4px">Limites</div><div><i style="background:none;border:2px dashed ${tok('--bairro')};border-radius:2px"></i>Bairro</div><div><i style="background:none;border:2px solid ${tok('--setor')};border-radius:2px"></i>Setor censitário</div><div><i style="background:${tok('--done')};border-radius:2px;height:4px;vertical-align:3px"></i>Rua finalizada</div>`;
+  `<div class="ttl" style="margin-top:4px">Limites</div><div><i style="background:none;border:2px dashed ${tok('--bairro')};border-radius:2px"></i>Bairro</div><div><i style="background:none;border:2px solid ${tok('--setor')};border-radius:2px"></i>Setor censitário</div><div class="ttl" style="margin-top:4px">Ruas feitas</div><div><i style="background:${tok('--lambe')};border-radius:2px;height:4px;vertical-align:3px"></i>Lambe-lambe</div><div><i style="background:${tok('--voto')};border-radius:2px;height:4px;vertical-align:3px"></i>Voto</div><div><i style="background:${tok('--lambe')};border:2px solid ${tok('--voto')};border-radius:2px;height:2px;vertical-align:3px"></i>As duas</div>`;
 
 // estado de navegação
 const st={b:null,s:null,q:null};
@@ -313,12 +362,19 @@ const semAc=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();
 const slug=s=>semAc(s).replace(/[^A-Z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,80)||'SEM-NOME';
 const chave=(s,nome)=>S[s].c+'__'+slug(nome);
 const feitas=new Map();
+const ATIV={lambe:{nome:'Colar lambe-lambe',curto:'Lambe-lambe',suf:'L'},voto:{nome:'Virar voto',curto:'Voto',suf:'V'}};
+let ATV='lambe', NOME='';
+const docId=(s,nome,at)=>chave(s,nome)+'__'+ATIV[at||ATV].suf;
 const N=window.Nativo||null;
 const CFG={apiKey:"AIzaSyA8xnl5pabB0bEOgdXkX2kNMq8mMaB1jXE",authDomain:"mapa-rosa-elze.firebaseapp.com",projectId:"mapa-rosa-elze",storageBucket:"mapa-rosa-elze.firebasestorage.app",messagingSenderId:"132784064008",appId:"1:132784064008:web:103e2fb0ed079985b733bd"};
-const CK='mapa-cache-v2', PK='mapa-pend-v2', MK='mapa-migr-v2';
+const CK='mapa-cache-v3', PK='mapa-pend-v3', NK='mapa-nome';
 function ler(k){try{ if(N&&N.ler) return N.ler(k)||''; return localStorage.getItem(k)||'' }catch(e){ return '' }}
 function grava(k,v){try{ if(N&&N.grava) N.grava(k,v); else localStorage.setItem(k,v) }catch(e){}}
 function lerJSON(k){try{return JSON.parse(ler(k)||'{}')||{}}catch(e){return {}}}
+function normaliza(id,d){
+  if(d&&d.atividade) return [id,Object.assign({},d,{_id:id})];
+  return [id+'__L',Object.assign({},d,{atividade:'lambe',_id:id})];
+}
 let servidor=new Map(Object.entries(lerJSON(CK)));
 const pend=new Map(Object.entries(lerJSON(PK)));
 const enviados=new Set();
@@ -334,39 +390,49 @@ function status(){
   if(erroSync) return setSync(false,erroSync);
   if(!online) return setSync(false, pend.size?`Sem internet · ${pend.size} alteração(ões) serão enviadas depois`:'Sem internet · mostrando a última versão salva');
   if(pend.size) return setSync(false,`Enviando ${pend.size} alteração(ões)…`);
-  setSync(true,`Ao vivo · ${feitas.size} rua(s) finalizada(s) pela equipe`);
+  const nl=[...feitas.values()].filter(v=>v.atividade==='lambe').length, nv=feitas.size-nl;
+  setSync(true,`Ao vivo · equipe: ${nl} rua(s) com lambe-lambe, ${nv} com voto`);
 }
-const isFeita=(s,nome)=>feitas.has(chave(s,nome));
+const isFeita=(s,nome,at)=>feitas.has(docId(s,nome,at));
+const quemFez=(s,nome,at)=>{const v=feitas.get(docId(s,nome,at));return v?(v.por||''):null};
 function enviar(k){
   const p=pend.get(k); if(!db||!p||enviados.has(k+'|'+p.em)) return;
   enviados.add(k+'|'+p.em);
-  const ref=FB.doc(db,'ruas',k);
+  const ref=FB.doc(db,'ruas',p.ref||k);
   (p.op==='set'?FB.setDoc(ref,p.dados):FB.deleteDoc(ref)).then(()=>{
     if(pend.get(k)===p){ pend.delete(k); salvaPend(); }
-    if(p.op==='set') servidor.set(k,p.dados); else servidor.delete(k);
+    if(p.op==='set') servidor.set(k,Object.assign({},p.dados,{_id:k})); else servidor.delete(k);
     recalcular(); status();
   }).catch(e=>{
     enviados.delete(k+'|'+p.em);
-    if(e&&e.code==='permission-denied'){ pend.delete(k); salvaPend(); recalcular(); atualizarTudo(); toast('O servidor recusou essa marcação.'); }
+    if(e&&e.code==='permission-denied'){ erroSync='O servidor recusou a marcação. Avise o responsável pelo mapa.'; }
     status();
   });
 }
 function marcarPend(k,op,dados){
   const p={op,em:new Date().toISOString()}; if(dados) p.dados=dados;
+  if(op==='del'){ const v=servidor.get(k); if(v&&v._id&&v._id!==k) p.ref=v._id; }
   pend.set(k,p); salvaPend(); enviar(k);
 }
 async function alternarRua(s,nome){
-  const k=chave(s,nome), estava=feitas.has(k);
-  if(estava) marcarPend(k,'del'); else marcarPend(k,'set',{setor:S[s].c,nome,bairro:S[s].b,em:new Date().toISOString()});
+  const k=docId(s,nome), estava=feitas.has(k);
+  if(estava) marcarPend(k,'del'); else marcarPend(k,'set',{setor:S[s].c,nome,bairro:S[s].b,em:new Date().toISOString(),atividade:ATV,por:NOME.slice(0,58)});
   recalcular(); atualizarTudo(); status();
 }
-function progSetor(s){let t=0,d=0;ruasSet[s].forEach((v,nome)=>{t++;if(isFeita(s,nome))d++});return [d,t]}
-function progLista(ss){return ss.reduce((a,s)=>{const [d,t]=progSetor(s);return [a[0]+d,a[1]+t]},[0,0])}
+function progSetor(s,at){let t=0,d=0;ruasSet[s].forEach((v,nome)=>{t++;if(isFeita(s,nome,at))d++});return [d,t]}
+function progLista(ss,at){return ss.reduce((a,s)=>{const [d,t]=progSetor(s,at);return [a[0]+d,a[1]+t]},[0,0])}
+function progTxt(ss){const [l,t]=progLista(ss,'lambe'),[v]=progLista(ss,'voto');return `<span class="pl">Lambe ${l}/${t}</span> · <span class="pv">Voto ${v}/${t}</span>`+barra2(l,v,t)}
+function barra2(l,v,t){const p=x=>t?Math.round(x/t*100):0;return `<span class="bar2"><i class="bl" style="width:${p(l)}%"></i></span><span class="bar2"><i class="bv" style="width:${p(v)}%"></i></span>`}
 function barra(d,t){return `<span class="bar"><i style="width:${t?Math.round(d/t*100):0}%"></i></span>`}
 function desenharFeitas(){
   gFeitas.clearLayers();
-  const cor=tok('--done');
-  ruasSet.forEach((m,s)=>m.forEach((v,nome)=>{ if(isFeita(s,nome)) v.faces.forEach(fi=>L.polyline(D.faces[fi].c,{pane:'feitas',renderer:R,color:cor,weight:5,opacity:.9,interactive:false}).addTo(gFeitas)) }));
+  const cl=tok('--lambe'), cv=tok('--voto');
+  ruasSet.forEach((m,s)=>m.forEach((v,nome)=>{
+    const l=isFeita(s,nome,'lambe'), vo=isFeita(s,nome,'voto'); if(!l&&!vo) return;
+    v.faces.forEach(fi=>{const c=D.faces[fi].c;
+      if(vo) L.polyline(c,{pane:'feitas',renderer:R,color:cv,weight:l?9:5,opacity:.95,interactive:false}).addTo(gFeitas);
+      if(l) L.polyline(c,{pane:'feitas',renderer:R,color:cl,weight:vo?3.5:5,opacity:1,interactive:false}).addTo(gFeitas);});
+  }));
 }
 let rtTimer=null;
 function atualizarTudo(){
@@ -380,10 +446,11 @@ function ruaBtn(s,nome,extra){
   const ok=isFeita(s,nome);
   const b=document.createElement('button');b.className='rua'+(ok?' done':'');
   b.setAttribute('aria-pressed',ok?'true':'false');
-  b.innerHTML=`<span class="chk">✓</span><span class="nm">${title(nome)}</span><span class="n">${extra}</span>`;
+  const tag=at=>{const q=quemFez(s,nome,at);return q===null?'':`<span class="tg t-${at}">✓ ${ATIV[at].curto}${q?' · '+esc(q):''}</span>`};
+  b.innerHTML=`<span class="chk">✓</span><span class="nm"><span class="nmt">${title(nome)}</span><span class="tgs">${tag('lambe')}${tag('voto')}</span></span><span class="n">${extra}</span>`;
   b.onclick=()=>alternarRua(s,nome);return b;
 }
-function migrar(){
+function migrarDesativado(){
   if(ler(MK)) return;
   let antigo={};
   try{ antigo=JSON.parse((N&&N.carregar?N.carregar():localStorage.getItem('ruas-finalizadas-v1'))||'{}')||{} }catch(e){}
@@ -396,14 +463,13 @@ async function conectar(){
     const app=FB.initializeApp(CFG);
     db=FB.initializeFirestore(app,{localCache:FB.memoryLocalCache(),experimentalAutoDetectLongPolling:true});
   }catch(e){ erroSync='Não foi possível iniciar a sincronização.'; status(); return; }
-  migrar();
   pend.forEach((p,k)=>enviar(k));
   FB.onSnapshot(FB.collection(db,'ruas'),{includeMetadataChanges:true},snap=>{
     const doServidor=!snap.metadata.fromCache;
     if(doServidor){ recebeuServidor=true; online=true; erroSync=''; }
     else online=false;
     if(doServidor||recebeuServidor){
-      const novo=new Map(); snap.docs.forEach(d=>novo.set(d.id,d.data()));
+      const novo=new Map(); snap.docs.forEach(d=>{const [id,v]=normaliza(d.id,d.data());novo.set(id,v)});
       servidor=novo;
       if(doServidor) grava(CK,JSON.stringify(Object.fromEntries(servidor)));
     }
@@ -415,7 +481,7 @@ async function conectar(){
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3500)}
 window.toast=toast;
 document.getElementById('bt-exp').onclick=()=>{
-  const j=JSON.stringify({app:'mapa-rosa-elze',versao:2,exportado:new Date().toISOString(),ruas:Object.fromEntries(feitas)});
+  const j=JSON.stringify({app:'mapa-rosa-elze',versao:3,exportado:new Date().toISOString(),ruas:Object.fromEntries(feitas)});
   const nome='ruas-finalizadas-'+new Date().toISOString().slice(0,10)+'.json';
   if(N) N.compartilhar(j,nome);
   else { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([j],{type:'application/json'})); a.download=nome; document.body.appendChild(a); a.click(); a.remove(); }
@@ -424,7 +490,8 @@ document.getElementById('bt-imp').onclick=()=>document.getElementById('arq').cli
 document.getElementById('arq').onchange=async e=>{
   const f=e.target.files[0]; e.target.value=''; if(!f) return;
   try{ const o=JSON.parse(await f.text()); const r=o.ruas||o; let n=0;
-    Object.entries(r).forEach(([k,v])=>{ if(v&&typeof v==='object'&&v.setor&&v.nome&&!feitas.has(k)){ marcarPend(k,'set',{setor:String(v.setor),nome:String(v.nome),bairro:String(v.bairro||''),em:String(v.em||new Date().toISOString())}); n++ } });
+    Object.entries(r).forEach(([k0,v])=>{ if(!(v&&typeof v==='object'&&v.setor&&v.nome)) return; const at=v.atividade==='voto'?'voto':'lambe'; const k=/__[LV]$/.test(k0)?k0:k0+'__'+ATIV[at].suf; if(feitas.has(k)) return;
+      marcarPend(k,'set',{setor:String(v.setor),nome:String(v.nome),bairro:String(v.bairro||''),em:String(v.em||new Date().toISOString()),atividade:at,por:String(v.por||'').slice(0,58)}); n++ });
     recalcular(); atualizarTudo(); status(); toast(n?`${n} rua(s) importada(s).`:'Nenhuma rua nova nesse arquivo.');
   }catch(err){ toast('Esse arquivo não é um backup do Mapa Rosa Elze.'); }
 };
@@ -457,12 +524,31 @@ window.voltar=()=>{
 };
 
 
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function aplicarAtividade(){
+  document.body.classList.toggle('at-lambe',ATV==='lambe'); document.body.classList.toggle('at-voto',ATV==='voto');
+  document.getElementById('quem').innerHTML=`<span class="dot"></span><b>${esc(NOME)}</b> · ${ATIV[ATV].nome}`;
+}
+const boas=document.getElementById('boas'), inpNome=document.getElementById('b-nome'), btEntrar=document.getElementById('b-entrar');
+let escolha=null;
+inpNome.value=ler(NK)||'';
+function validaBoas(){ btEntrar.disabled=!(inpNome.value.trim().length>=2 && escolha); }
+document.querySelectorAll('.b-ativ').forEach(b=>b.onclick=()=>{ escolha=b.dataset.at; document.querySelectorAll('.b-ativ').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false')); validaBoas(); });
+inpNome.addEventListener('input',validaBoas);
+btEntrar.onclick=()=>{
+  NOME=inpNome.value.trim().replace(/\s+/g,' ').slice(0,58); ATV=escolha; grava(NK,NOME);
+  boas.hidden=true; aplicarAtividade(); recalcular(); atualizarTudo(); status(); map.invalidateSize();
+  toast(`Marcando como: ${ATIV[ATV].nome}`);
+};
+document.getElementById('trocar').onclick=()=>{ escolha=null; document.querySelectorAll('.b-ativ').forEach(x=>x.setAttribute('aria-pressed','false')); validaBoas(); boas.hidden=false; };
+validaBoas();
+
 function home(keep){
   st.b=st.s=st.q=null; if(!keep){limparSel();} crumb();
   const [dT,tT]=progLista(S.map((_,i)=>i));
-  setSummary([E.length,'endereços'],[`${dT}/${tT}`,'ruas finalizadas'],[Q.length,'quadras']);
+  setSummary([E.length,'endereços'],[`${dT}/${tT}`,'ruas · '+ATIV[ATV].curto.toLowerCase()],[Q.length,'quadras']);
   const ul=document.createElement('ul');ul.className='list';
-  BAIRROS.forEach(b=>{const n=sPorB[b].reduce((a,i)=>a+S[i].n,0);const [d,t]=progLista(sPorB[b]);ul.appendChild(li(b,`${sPorB[b].length} setores · ${d}/${t} ruas finalizadas${barra(d,t)}`,fmt(n)+' end.',()=>abrirBairro(b)))});
+  BAIRROS.forEach(b=>{const n=sPorB[b].reduce((a,i)=>a+S[i].n,0);const [d,t]=progLista(sPorB[b]);ul.appendChild(li(b,`${sPorB[b].length} setores · ${progTxt(sPorB[b])}`,fmt(n)+' end.',()=>abrirBairro(b)))});
   bodyEl.replaceChildren(ul);
   const hint=document.createElement('p');hint.className='hint';hint.textContent='Escolha um bairro, depois um setor e uma quadra para ver a lista de endereços por face, como na caderneta do recenseador. Também dá para tocar direto numa quadra no mapa.';bodyEl.appendChild(hint);
   if(!keep) map.fitBounds(gB.getBounds(),{padding:[20,20]});
@@ -474,9 +560,9 @@ function abrirBairro(b,keep){
   const ss=sPorB[b].slice().sort((x,y)=>S[x].c.localeCompare(S[y].c));
   const nq=ss.reduce((a,i)=>a+qPorS[i].length,0), ne=ss.reduce((a,i)=>a+S[i].n,0);
   const [dB,tB]=progLista(ss);
-  setSummary([ne,'endereços'],[`${dB}/${tB}`,'ruas finalizadas'],[nq,'quadras']);
+  setSummary([ne,'endereços'],[`${dB}/${tB}`,'ruas · '+ATIV[ATV].curto.toLowerCase()],[nq,'quadras']);
   const ul=document.createElement('ul');ul.className='list';
-  ss.forEach(i=>{const [d,t]=progSetor(i);ul.appendChild(li('Setor '+S[i].cod+(d===t&&t?' <span class="tag-ok">✓</span>':''),`${d}/${t} ruas finalizadas · ${qPorS[i].length} quadras${barra(d,t)}`,fmt(S[i].n)+' end.',()=>abrirSetor(i)))});
+  ss.forEach(i=>{const [d,t]=progSetor(i);ul.appendChild(li('Setor '+S[i].cod+(d===t&&t?' <span class="tag-ok">✓</span>':''),`${qPorS[i].length} quadras · ${progTxt([i])}`,fmt(S[i].n)+' end.',()=>abrirSetor(i)))});
   bodyEl.replaceChildren(ul); if(!keep){bodyEl.scrollTop=0;
   map.fitBounds(l.getBounds(),{padding:[20,20]});}
 }
@@ -485,9 +571,9 @@ function abrirSetor(i,keep){
   let l; if(!keep){limparSel(); l=realce(S[i].g,tok('--setor'),3.5);}
   const qs=qPorS[i].slice().sort((a,b)=>Q[a].q-Q[b].q);
   const [d,t]=progSetor(i);
-  setSummary([S[i].n,'endereços'],[`${d}/${t}`,'ruas finalizadas'],[qs.length,'quadras']);
+  setSummary([S[i].n,'endereços'],[`${d}/${t}`,'ruas · '+ATIV[ATV].curto.toLowerCase()],[qs.length,'quadras']);
   const frag=document.createDocumentFragment();
-  const h1=document.createElement('div');h1.className='secthd';h1.innerHTML=`<span>Ruas do setor · toque para marcar</span><span>${d}/${t}</span>`;frag.appendChild(h1);
+  const h1=document.createElement('div');h1.className='secthd';h1.innerHTML=`<span>Ruas do setor · toque para marcar ${ATIV[ATV].curto.toLowerCase()}</span><span>${d}/${t}</span>`;frag.appendChild(h1);
   [...ruasSet[i].entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([nome,v])=>frag.appendChild(ruaBtn(i,nome,v.ends+' end.')));
   const h2=document.createElement('div');h2.className='secthd';h2.innerHTML='<span>Quadras</span><span></span>';frag.appendChild(h2);
   const ul=document.createElement('ul');ul.className='list';
@@ -532,7 +618,9 @@ function abrirQuadra(k,zoom,keep){
     const hd=document.createElement('div');hd.className='facehd'+(ok?' done':'');
     hd.innerHTML=`<span class="fnum">${fn}</span><span>${nome}</span><span class="n" style="margin-left:auto">${lista.length}</span>`;
     if(nomeRaw){const bt=document.createElement('button');bt.className='fin'+(ok?' done':'');bt.setAttribute('aria-pressed',ok?'true':'false');bt.title='Marca esta rua em todo o setor';
-      bt.innerHTML=`<span class="chk">✓</span>${ok?'Finalizada':'Finalizar rua'}`;bt.onclick=()=>alternarRua(q.s,nomeRaw);hd.appendChild(bt);}
+      const outra=ATV==='lambe'?'voto':'lambe', okO=isFeita(q.s,nomeRaw,outra);
+      if(okO){const tg=document.createElement('span');tg.className='tg t-'+outra;tg.textContent='✓ '+ATIV[outra].curto;tg.style.marginLeft='6px';hd.appendChild(tg);}
+      bt.innerHTML=`<span class="chk">✓</span>${ok?ATIV[ATV].curto+' feito':'Marcar '+ATIV[ATV].curto.toLowerCase()}`;bt.onclick=()=>alternarRua(q.s,nomeRaw);hd.appendChild(bt);}
     frag.appendChild(hd);
     lista.sort((a,b)=>(parseInt(E[a][5])||0)-(parseInt(E[b][5])||0)).forEach(i=>{
       const r=E[i];const b=document.createElement('button');b.className='addr';
