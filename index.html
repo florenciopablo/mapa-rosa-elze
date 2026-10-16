@@ -110,6 +110,15 @@ body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:1
 body{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);box-sizing:border-box}
 @media (min-width:761px){.gpsbtn{bottom:auto;top:60px}}
 .sync{padding:8px 16px;}
+.rua-wrap{border-bottom:1px solid var(--line)}
+.rua-wrap .rua{border-bottom:0}
+.inteira{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:14px;padding:4px 10px 4px 6px;font:600 12px var(--font-ui);cursor:pointer}
+.inteira .chk{width:16px;height:16px;font-size:11px}
+.inteira .n{font-size:11px}
+.inteira.done{background:var(--done-soft);border-color:var(--done);color:var(--done)}
+.inteira.sob{margin:0 16px 10px 48px}
+.facehd .inteira{margin-left:6px}
+.facehd{flex-wrap:wrap;row-gap:6px}
 body.at-lambe{--done:var(--lambe);--done-soft:var(--lambe-soft)}
 body.at-voto{--done:var(--voto);--done-soft:var(--voto-soft)}
 .quem{display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap}
@@ -259,8 +268,8 @@ const gRuas=L.layerGroup().addTo(map);
 D.ruas.forEach(([nm,c])=>{
   L.polyline(c,{pane:'ruas',renderer:R,color:tok('--street-case'),weight:6,opacity:.55,interactive:false}).addTo(gRuas);
 });
-D.ruas.forEach(([nm,c])=>{
-  L.polyline(c,{pane:'ruas',renderer:R,color:tok('--street'),weight:4,opacity:1}).bindTooltip(title(nm||'Sem nome'),{sticky:true}).addTo(gRuas);
+D.ruas.forEach(([nm,c],i)=>{
+  L.polyline(c,{pane:'ruas',renderer:R,color:tok('--street'),weight:4,opacity:1}).bindTooltip(title(nm||'Sem nome'),{sticky:true}).on('click',ev=>{L.DomEvent.stop(ev);popupRua(i,ev.latlng)}).addTo(gRuas);
 });
 const gS=L.geoJSON({type:'FeatureCollection',features:S.map((s,i)=>({type:'Feature',properties:{i},geometry:s.g}))},
   {pane:'setores',renderer:R,style:{color:tok('--setor'),weight:1.6,fillOpacity:0,opacity:.85,interactive:false}}).addTo(map);
@@ -442,13 +451,55 @@ function atualizarTudo(){
   if(st.q!==null) abrirQuadra(st.q,false,true); else if(st.s!==null) abrirSetor(st.s,true); else if(st.b) abrirBairro(st.b,true); else home(true);
   bodyEl.scrollTop=y;
 }
+// ===== rua inteira =====
+const GI=new Map(); (D.inteiras||[]).forEach(([nome,ss],gi)=>ss.forEach(s=>GI.set(s+'|'+nome,gi)));
+const grupoDe=(s,nome)=>{const g=GI.get(s+'|'+nome);return g===undefined?-1:g};
+function progGrupo(gi,at){const [nome,ss]=D.inteiras[gi];return [ss.filter(s=>isFeita(s,nome,at)).length,ss.length]}
+function alternarGrupo(gi){
+  const [nome,ss]=D.inteiras[gi]; const [d,t]=progGrupo(gi); const marcar=d<t; let n=0;
+  ss.forEach(s=>{ const k=docId(s,nome), tem=feitas.has(k);
+    if(marcar&&!tem){ marcarPend(k,'set',{setor:S[s].c,nome,bairro:S[s].b,em:new Date().toISOString(),atividade:ATV,por:NOME.slice(0,58)}); n++; }
+    else if(!marcar&&tem){ marcarPend(k,'del'); n++; } });
+  recalcular(); atualizarTudo(); status();
+  toast(marcar?`${title(nome)}: ${ATIV[ATV].curto.toLowerCase()} marcado na rua inteira (${t} setores).`:`${title(nome)}: ${ATIV[ATV].curto.toLowerCase()} desmarcado na rua inteira.`);
+}
+function btnInteira(s,nome,cls){
+  const gi=grupoDe(s,nome); if(gi<0) return null;
+  const [d,t]=progGrupo(gi); const tudo=d===t;
+  const b=document.createElement('button'); b.type='button'; b.className=(cls||'inteira')+(tudo?' done':'');
+  b.setAttribute('aria-pressed',tudo?'true':'false');
+  b.innerHTML=`<span class="chk">✓</span>${tudo?'Rua inteira feita':'Marcar rua inteira'} <span class="n">${d}/${t} setores</span>`;
+  b.title=`Marca ${ATIV[ATV].curto.toLowerCase()} em todos os ${t} setores por onde a rua passa`;
+  b.onclick=e=>{e.stopPropagation(); alternarGrupo(gi)}; return b;
+}
 function ruaBtn(s,nome,extra){
   const ok=isFeita(s,nome);
   const b=document.createElement('button');b.className='rua'+(ok?' done':'');
   b.setAttribute('aria-pressed',ok?'true':'false');
   const tag=at=>{const q=quemFez(s,nome,at);return q===null?'':`<span class="tg t-${at}">✓ ${ATIV[at].curto}${q?' · '+esc(q):''}</span>`};
   b.innerHTML=`<span class="chk">✓</span><span class="nm"><span class="nmt">${title(nome)}</span><span class="tgs">${tag('lambe')}${tag('voto')}</span></span><span class="n">${extra}</span>`;
-  b.onclick=()=>alternarRua(s,nome);return b;
+  b.onclick=()=>alternarRua(s,nome);
+  const bi=btnInteira(s,nome); if(!bi) return b;
+  const w=document.createElement('div'); w.className='rua-wrap'; w.appendChild(b); bi.classList.add('sob'); w.appendChild(bi); return w;
+}
+// clique numa rua do mapa
+function popupRua(i,latlng){
+  const [nm]=D.ruas[i]; const g=(D.ruaGrupo||[])[i];
+  const el=document.createElement('div'); el.className='pop';
+  if(!nm||g===undefined||g===-1){ el.innerHTML=`<h3>${esc(title(nm||'Rua sem nome'))}</h3><p style="margin:4px 0 0;color:var(--muted)">Fora dos cinco bairros ou sem endereços cadastrados.</p>`; }
+  else{
+    const ss=g>=0?D.inteiras[g][1]:[-g-1000];
+    const st=at=>{const d=ss.filter(s=>isFeita(s,nm,at)).length;return `<span class="tg t-${at}">${ATIV[at].curto}: ${d}/${ss.length} ${ss.length>1?'setores':'setor'}</span>`};
+    el.innerHTML=`<h3>${esc(title(nm))}</h3><div class="tgs" style="margin:4px 0 8px">${st('lambe')}${st('voto')}</div>`;
+    const b=document.createElement('button'); b.type='button'; b.className='inteira';
+    const d=ss.filter(s=>isFeita(s,nm)).length, tudo=d===ss.length;
+    if(tudo) b.classList.add('done');
+    b.innerHTML=`<span class="chk">✓</span>${ss.length>1?(tudo?'Desmarcar rua inteira':'Marcar rua inteira'):(tudo?'Desmarcar este trecho':'Marcar este trecho')} · ${ATIV[ATV].curto.toLowerCase()}`;
+    b.onclick=()=>{ if(g>=0) alternarGrupo(g); else alternarRua(ss[0],nm); map.closePopup(); };
+    el.appendChild(b);
+    if(ss.length>1){const p=document.createElement('p');p.style.cssText='margin:6px 0 0;font-size:12px;color:var(--muted)';p.textContent=`Passa por ${ss.length} setores: ${ss.map(s=>S[s].cod).join(', ')}`;el.appendChild(p);}
+  }
+  L.popup({maxWidth:300}).setLatLng(latlng).setContent(el).openOn(map);
 }
 function migrarDesativado(){
   if(ler(MK)) return;
@@ -573,7 +624,7 @@ function abrirSetor(i,keep){
   const [d,t]=progSetor(i);
   setSummary([S[i].n,'endereços'],[`${d}/${t}`,'ruas · '+ATIV[ATV].curto.toLowerCase()],[qs.length,'quadras']);
   const frag=document.createDocumentFragment();
-  const h1=document.createElement('div');h1.className='secthd';h1.innerHTML=`<span>Ruas do setor · toque para marcar ${ATIV[ATV].curto.toLowerCase()}</span><span>${d}/${t}</span>`;frag.appendChild(h1);
+  const h1=document.createElement('div');h1.className='secthd';h1.innerHTML=`<span>Ruas do setor · toque para marcar ${ATIV[ATV].curto.toLowerCase()} neste setor</span><span>${d}/${t}</span>`;frag.appendChild(h1);
   [...ruasSet[i].entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([nome,v])=>frag.appendChild(ruaBtn(i,nome,v.ends+' end.')));
   const h2=document.createElement('div');h2.className='secthd';h2.innerHTML='<span>Quadras</span><span></span>';frag.appendChild(h2);
   const ul=document.createElement('ul');ul.className='list';
@@ -620,7 +671,8 @@ function abrirQuadra(k,zoom,keep){
     if(nomeRaw){const bt=document.createElement('button');bt.className='fin'+(ok?' done':'');bt.setAttribute('aria-pressed',ok?'true':'false');bt.title='Marca esta rua em todo o setor';
       const outra=ATV==='lambe'?'voto':'lambe', okO=isFeita(q.s,nomeRaw,outra);
       if(okO){const tg=document.createElement('span');tg.className='tg t-'+outra;tg.textContent='✓ '+ATIV[outra].curto;tg.style.marginLeft='6px';hd.appendChild(tg);}
-      bt.innerHTML=`<span class="chk">✓</span>${ok?ATIV[ATV].curto+' feito':'Marcar '+ATIV[ATV].curto.toLowerCase()}`;bt.onclick=()=>alternarRua(q.s,nomeRaw);hd.appendChild(bt);}
+      bt.innerHTML=`<span class="chk">✓</span>${ok?ATIV[ATV].curto+' feito':'Marcar '+ATIV[ATV].curto.toLowerCase()}`;bt.onclick=()=>alternarRua(q.s,nomeRaw);hd.appendChild(bt);
+      const bi=btnInteira(q.s,nomeRaw); if(bi){ bi.innerHTML=bi.classList.contains('done')?'<span class="chk">✓</span>Rua inteira':'<span class="chk">✓</span>Rua inteira'; hd.appendChild(bi);} }
     frag.appendChild(hd);
     lista.sort((a,b)=>(parseInt(E[a][5])||0)-(parseInt(E[b][5])||0)).forEach(i=>{
       const r=E[i];const b=document.createElement('button');b.className='addr';
