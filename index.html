@@ -376,7 +376,7 @@ let ATV='lambe', NOME='';
 const docId=(s,nome,at)=>chave(s,nome)+'__'+ATIV[at||ATV].suf;
 const N=window.Nativo||null;
 const CFG={apiKey:"AIzaSyA8xnl5pabB0bEOgdXkX2kNMq8mMaB1jXE",authDomain:"mapa-rosa-elze.firebaseapp.com",projectId:"mapa-rosa-elze",storageBucket:"mapa-rosa-elze.firebasestorage.app",messagingSenderId:"132784064008",appId:"1:132784064008:web:103e2fb0ed079985b733bd"};
-const CK='mapa-cache-v3', PK='mapa-pend-v3', NK='mapa-nome';
+const CK='mapa-cache-v3', PK='mapa-pend-v3', NK='mapa-nome', HK='mapa-hist-v1', DK='mapa-dispositivo', VERSAO='4.1';
 function ler(k){try{ if(N&&N.ler) return N.ler(k)||''; return localStorage.getItem(k)||'' }catch(e){ return '' }}
 function grava(k,v){try{ if(N&&N.grava) N.grava(k,v); else localStorage.setItem(k,v) }catch(e){}}
 function lerJSON(k){try{return JSON.parse(ler(k)||'{}')||{}}catch(e){return {}}}
@@ -389,6 +389,33 @@ const pend=new Map(Object.entries(lerJSON(PK)));
 const enviados=new Set();
 let db=null, online=false, recebeuServidor=false, erroSync='';
 function salvaPend(){grava(PK,JSON.stringify(Object.fromEntries(pend)))}
+// ===== dispositivo, acessos e histórico =====
+let DEV=ler(DK); if(!DEV){ DEV='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); grava(DK,DEV); }
+const histPend=new Map(Object.entries(lerJSON(HK)));
+const histEnv=new Set();
+function salvaHist(){grava(HK,JSON.stringify(Object.fromEntries(histPend)))}
+function aparelho(){
+  try{ if(N&&N.aparelho) return String(N.aparelho()).slice(0,110); }catch(e){}
+  const ua=navigator.userAgent; let os='Outro', nav='Navegador';
+  const a=ua.match(/Android [\d.]+(; [^;)]+)?/); if(a) os=a[0].replace(/; K$/,'');
+  else if(/iPhone|iPad/.test(ua)) os='iOS'; else if(/Windows/.test(ua)) os='Windows'; else if(/Mac OS/.test(ua)) os='Mac'; else if(/Linux/.test(ua)) os='Linux';
+  nav=/Edg\//.test(ua)?'Edge':/OPR\//.test(ua)?'Opera':/SamsungBrowser/.test(ua)?'Samsung Internet':/Chrome\//.test(ua)?'Chrome':/Firefox\//.test(ua)?'Firefox':/Safari\//.test(ua)?'Safari':nav;
+  return (nav+' · '+os).slice(0,110);
+}
+function enviarHist(id){
+  const h=histPend.get(id); if(!db||!h||histEnv.has(id)) return; histEnv.add(id);
+  FB.setDoc(FB.doc(db,'historico',id),h).then(()=>{histPend.delete(id);salvaHist()}).catch(()=>{histEnv.delete(id)});
+}
+function registrarHist(acao,s,nome,at){
+  const id=DEV+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  histPend.set(id,{acao,atividade:at||ATV,rua:String(nome).slice(0,118),setor:S[s].c,bairro:S[s].b,nome:NOME.slice(0,58),dispositivo:DEV,em:new Date().toISOString()});
+  salvaHist(); enviarHist(id);
+}
+function registrarAcesso(){
+  if(!db) return;
+  let prim=ler('mapa-primeiro'); if(!prim){prim=new Date().toISOString();grava('mapa-primeiro',prim);}
+  FB.setDoc(FB.doc(db,'acessos',DEV),{nome:NOME.slice(0,58),atividade:ATV,plataforma:N?'app':'site',aparelho:aparelho(),versao:VERSAO,primeiro:prim,ultimo:new Date().toISOString()}).catch(()=>{});
+}
 function recalcular(){
   feitas.clear(); servidor.forEach((v,k)=>feitas.set(k,v));
   pend.forEach((p,k)=>{ if(p.op==='set') feitas.set(k,p.dados); else feitas.delete(k) });
@@ -425,6 +452,7 @@ function marcarPend(k,op,dados){
 }
 async function alternarRua(s,nome){
   const k=docId(s,nome), estava=feitas.has(k);
+  registrarHist(estava?'desmarcou':'marcou',s,nome);
   if(estava) marcarPend(k,'del'); else marcarPend(k,'set',{setor:S[s].c,nome,bairro:S[s].b,em:new Date().toISOString(),atividade:ATV,por:NOME.slice(0,58)});
   recalcular(); atualizarTudo(); status();
 }
@@ -458,6 +486,7 @@ function progGrupo(gi,at){const [nome,ss]=D.inteiras[gi];return [ss.filter(s=>is
 function alternarGrupo(gi){
   const [nome,ss]=D.inteiras[gi]; const [d,t]=progGrupo(gi); const marcar=d<t; let n=0;
   ss.forEach(s=>{ const k=docId(s,nome), tem=feitas.has(k);
+    if(marcar!==tem) registrarHist(marcar?'marcou rua inteira':'desmarcou rua inteira',s,nome);
     if(marcar&&!tem){ marcarPend(k,'set',{setor:S[s].c,nome,bairro:S[s].b,em:new Date().toISOString(),atividade:ATV,por:NOME.slice(0,58)}); n++; }
     else if(!marcar&&tem){ marcarPend(k,'del'); n++; } });
   recalcular(); atualizarTudo(); status();
@@ -514,7 +543,7 @@ async function conectar(){
     const app=FB.initializeApp(CFG);
     db=FB.initializeFirestore(app,{localCache:FB.memoryLocalCache(),experimentalAutoDetectLongPolling:true});
   }catch(e){ erroSync='Não foi possível iniciar a sincronização.'; status(); return; }
-  pend.forEach((p,k)=>enviar(k));
+  pend.forEach((p,k)=>enviar(k)); histPend.forEach((h,id)=>enviarHist(id));
   FB.onSnapshot(FB.collection(db,'ruas'),{includeMetadataChanges:true},snap=>{
     const doServidor=!snap.metadata.fromCache;
     if(doServidor){ recebeuServidor=true; online=true; erroSync=''; }
@@ -524,10 +553,10 @@ async function conectar(){
       servidor=novo;
       if(doServidor) grava(CK,JSON.stringify(Object.fromEntries(servidor)));
     }
-    if(doServidor) pend.forEach((p,k)=>enviar(k));
+    if(doServidor){ pend.forEach((p,k)=>enviar(k)); histPend.forEach((h,id)=>enviarHist(id)); }
     recalcular(); atualizarTudo(); status();
   },e=>{ erroSync='A sincronização falhou. Feche e abra de novo.'; status(); });
-  window.addEventListener('online',()=>{ pend.forEach((p,k)=>enviar(k)); });
+  window.addEventListener('online',()=>{ pend.forEach((p,k)=>enviar(k)); histPend.forEach((h,id)=>enviarHist(id)); });
 }
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3500)}
 window.toast=toast;
@@ -588,7 +617,7 @@ document.querySelectorAll('.b-ativ').forEach(b=>b.onclick=()=>{ escolha=b.datase
 inpNome.addEventListener('input',validaBoas);
 btEntrar.onclick=()=>{
   NOME=inpNome.value.trim().replace(/\s+/g,' ').slice(0,58); ATV=escolha; grava(NK,NOME);
-  boas.hidden=true; aplicarAtividade(); recalcular(); atualizarTudo(); status(); map.invalidateSize();
+  boas.hidden=true; registrarAcesso(); aplicarAtividade(); recalcular(); atualizarTudo(); status(); map.invalidateSize();
   toast(`Marcando como: ${ATIV[ATV].nome}`);
 };
 document.getElementById('trocar').onclick=()=>{ escolha=null; document.querySelectorAll('.b-ativ').forEach(x=>x.setAttribute('aria-pressed','false')); validaBoas(); boas.hidden=false; };
